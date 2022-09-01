@@ -1,0 +1,20 @@
+[
+  {
+    "tittle": "Laptop Gamer Acer Nitro 5",
+    "price": "1170.25",
+    "thumbnail": "https://m.media-amazon.com/images/I/81AElZaPraL._AC_SL1500_.jpg",
+    "id": 1
+  },
+  {
+    "tittle": "Laptop Gamer HP Legion",
+    "price": "1095.90",
+    "thumbnail": "https://home.ripley.cl/store/Attachment/WOP/D113/2000390852867/2000390852867-6.jpg",
+    "id": 2
+  },
+  {
+      "tittle": "Laptop Gamer HP Legion",
+      "price": "1095.90",
+      "thumbnail": "https://home.ripley.cl/store/Attachment/WOP/D113/2000390852867/2000390852867-6.jpg",
+      "id": 3
+  }
+]
