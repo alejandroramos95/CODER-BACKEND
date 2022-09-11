@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <hr />
+
+  <h2>Ingrese Producto</h2>
+    <form id="Form" action="/api/productos" enctype="multipart/form-data" method="POST">
+      Título: <input type="text" name="tittle" style="margin-left: 1.65cm;" required /> <br /><br />
+      Precio: <input type="text" name="price" style="margin-left: 1.6cm;" required /> <br /><br />
+      <!-- URL de imágen: <input type="file" name="thumbnail" /> -->
+      <select id="option" onclick="test()">
+        <option type="text" value="none" selected>Escoga una Opción</option>
+        <option type="text" value="URL">URL</option>
+        <option type="text" value="thumbnail">Imagen</option>
+      </select><br /><br />
+      <div id="fileInput" style="visibility: hidden;">
+        Imágen: <input type="file" id="image-file" name="thumbnail" /><br /><br />
+      </div>
+      <div id="URLInput" style="visibility: hidden;">
+        URL de imágen: <input type="text" id="URL-text" name="URL" /><br /><br />
+      </div>
+      <input type="text" name="OPTION" style="visibility: hidden;"/><br /><br />
+      <button style="margin-top: 2px;" onclick="selectfile()">Enviar</button>
+    </form>
+
+  <br />
+  <hr />
+  <script>
+    function test(){
+      let selected = document.getElementById("option");
+      console.log(selected.value);
+      if(selected.value == "none"){
+        document.getElementById("URLInput").style.visibility='hidden';
+        document.getElementById("fileInput").style.visibility='hidden';
+      }if (selected.value == "thumbnail"){
+        document.getElementById("fileInput").style.visibility='visible';
+        document.getElementById("URLInput").style.visibility='hidden' ;
+      }if (selected.value == "URL"){
+        document.getElementById("URLInput").style.visibility='visible';
+        document.getElementById("fileInput").style.visibility='hidden' ;
+      }
+    }
+
+    function selectfile() {
+      var form = document.forms['Form'];
+      form.elements["OPTION"].value = document.getElementById("option").value;
+      
+    }
+  </script>
+</body>
+</html>
