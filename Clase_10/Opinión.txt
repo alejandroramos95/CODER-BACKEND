@@ -1,0 +1,4 @@
+En base a lo desarrollado, opino que el motor EJS es más sencillo de endender debido a que su sintaxis es muy parecido al de JS.
+Por otro lado, Pug sería la segunda mejor alternativa ya que, su sintaxis apesar de ser un poco confusa para los primeros usos, 
+te vas familiarizando con su sintaxis que al rato se vuelve intuitivo. Sobre HandleBars, bajo mi opinión es el que sin duda, 
+trataría de evitar usar este motor debido a que es muy limitado en base a sus conficionales y su sintaxis es confusa.
