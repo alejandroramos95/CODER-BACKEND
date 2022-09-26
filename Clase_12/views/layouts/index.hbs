@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Mi Aplicación con Sockets</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body style="background-color: black;">
+    <h2 style="text-align: center; margin-top: 2cm; color: white;">Ingrese un producto para añadir</h2>
+    <div class="row justify-content-center" style="background-color: rgb(83, 80, 80); border-radius: 30px; margin: 1cm;">
+      <form id="Form" onsubmit="addMessage(this)" style="margin: 1cm;">
+        <div class="mb-3">
+          <label for="tittle" class="form-label" style="color: white;">Título del producto</label>
+          <input type="text" placeholder="Título de ejemplo" class="form-control" id="tittle" required>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label" style="color: white;">Precio</label>
+          <input type="number" placeholder="151.2" min="0.1" step="any"class="form-control" id="price" required>
+        </div>
+        <div class="mb-3">
+          <label for="link-url" class="form-label" style="color: white;">URL</label>
+          <input type="url" placeholder="https://ejemplo.png" class="form-control" id="thumbnail" required>
+        </div>
+        <div class="col text-center" style="margin-top: 2.5rem; margin-bottom: 3rem;">
+          <button type="submit" class="btn btn-outline-success" style="align-self: center;">Listar Productos</button>
+        </div>
+      </form>
+    </div>
+      
+    <div id="container"></div>
+  </div>
+  <script>
+    const socket = io.connect();
+
+    socket.on("messages", (data) => {
+        footer(data);
+    });
+
+    function footer(data){
+        fetch('/',{
+        method: 'POST'
+        }).then(function (html) {
+        return html.text();
+        }).then(function (footer) {
+        render(data, footer);
+        }).catch(function (error) {
+        console.log(error);
+        });
+    }
+
+    function render(data, footer) {
+        
+        const html = data.map((elemento) => {
+            return `<tr>
+            <td>${elemento.id}</td>
+            <td>${elemento.tittle}</td>
+            <td>${elemento.price}</td>
+            <td><img src='${elemento.thumbnail}' height=50 width=50></td>
+            </tr>`;
+        }).join("\n");
+        
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(footer, 'text/html');
+        
+        try{
+        if(doc.getElementById('content').innerHTML == 'No hay productos que mostrar'){
+            document.getElementById('container').innerHTML = doc.body.innerHTML;
+            console.log('MUNDO');
+        }
+        }catch{
+        doc.getElementById('products-container').innerHTML = html;
+        console.log('HOLA');
+        document.getElementById('container').innerHTML = doc.body.innerHTML;
+        }  
+    }
+
+    function addMessage(e) {
+        const mensaje = {
+        tittle: document.getElementById("tittle").value,
+        price: document.getElementById("price").value,
+        thumbnail: document.getElementById("thumbnail").value,
+        };
+
+        console.log(mensaje);
+        socket.emit("new-message", mensaje);
+        return false;
+    }
+  </script>
+</body>
+</html>
