@@ -10,9 +10,9 @@
   <style>
     .card-bordered {
       border: 1px solid #ebebeb;
-  }
+    }
 
-  .card {
+    .card {
       border: 0;
       border-radius: 0px;
       margin-bottom: 30px;
@@ -21,22 +21,22 @@
       -webkit-transition: .5s;
       transition: .5s;
       border-radius: 10px;
-  }
+    }
 
-  .padding {
+    .padding {
       padding: 3rem !important
-  }
+    }
 
-  body {
-    background-color: #f9f9fa
-  }
+    body {
+      background-color: #f9f9fa
+    }
 
-  .card-header:first-child {
+    .card-header:first-child {
       border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
-  }
+    }
 
 
-  .card-header {
+    .card-header {
       display: -webkit-box;
       display: flex;
       -webkit-box-pack: justify;
@@ -47,53 +47,53 @@
       background-color: transparent;
       border-bottom: 1px solid rgba(77,82,89,0.07);
       background-color: rgb(0, 140, 255);
-  }
+    }
 
-  .card-header .card-title {
+    .card-header .card-title {
       padding: 0;
       border: none;
-  }
+    }
 
-  h4.card-title {
+    h4.card-title {
       font-size: 17px;
-  }
+    }
 
-  .card-header>*:last-child {
+    .card-header>*:last-child {
       margin-right: 0;
-  }
+    }
 
-  .card-header>* {
+    .card-header>* {
       margin-left: 8px;
       margin-right: 8px;
-  }
+    }
 
-  .btn-secondary {
+    .btn-secondary {
       color: #4d5259 !important;
       background-color: #e4e7ea;
       border-color: #e4e7ea;
       color: #fff;
-  }
+    }
 
-  .btn-xs {
+    .btn-xs {
       font-size: 11px;
       padding: 2px 8px;
       line-height: 18px;
-  }
-  .btn-xs:hover{
+    }
+    .btn-xs:hover{
       color:#fff !important;
-  }
+    }
 
 
 
 
-  .card-title {
+    .card-title {
       font-family: Roboto,sans-serif;
       font-weight: 300;
       line-height: 1.5;
       margin-bottom: 0;
       padding: 15px 20px;
       border-bottom: 1px solid rgba(77,82,89,0.07);
-  }
+    }
 
 
   .ps-container {
@@ -205,8 +205,8 @@
   }
 
   .media-chat.media-chat-reverse {
-      padding-right: 0px;
-      padding-left: 200px;
+      padding-right: 12px;
+      padding-left: 64px;
       -webkit-box-orient: horizontal;
       -webkit-box-direction: reverse;
       flex-direction: row-reverse;
@@ -347,38 +347,39 @@
       
     <div id="container"></div>
 
-    <div id="tester"></div>
-
     <div class="page-content page-container" id="page-content">
+      
       <div class="padding">
         <div class="row container d-flex justify-content-center">
           <div class="col-md-6">
             <div class="card card-bordered">
               <div class="card-header">
                 <h4 class="card-title"><strong>Chat</strong></h4>
-                <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
+                <a class="btn btn-xs btn-secondary" onclick="chat(document.getElementById('send-message').value)" data-abc="true" id="btn-register">Empecemos a chatear</a>
               </div>
 
               <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
-                
-
-
-              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
-
-              <div class="publisher bt-1 border-light">
-                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <input class="publisher-input" id="send-message" type="text" placeholder="Write something">
-                <a class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true"><img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img></a>
+                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                  <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+                  <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+                </div>
               </div>
 
+              <div class="publisher bt-1 border-light" id="uchat">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                <input class="publisher-input" id="send-message" type="text" placeholder="Registrate con tu email">
+                
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
+    {{!-- CSS ESTA MALO Y ELIMINAR LOS VALORES EN LOS INPUT --}}
     <script>
-      
+      let email;
       const socket = io.connect();
       
       socket.on("productos", (data) => {
@@ -409,6 +410,7 @@
                   <div class="media-body">
                     <p>${elemento.message}</p>
                     <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
+                    <p class="meta">${elemento.email}</p>
                   </div>
                 </div>`;
           }else{
@@ -418,6 +420,7 @@
                   <div class="media-body">
                     <p>${elemento.message}</p>
                     <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
+                    <p class="meta">${elemento.email}</p>
                   </div>
                 </div>`;
           }
@@ -439,6 +442,7 @@
       function addMessage(e){
         const message = {
           message: e,
+          email: email,
           dateTime: new Date().toLocaleString('es-PE'),
           UID: socket.id,
         }
@@ -455,8 +459,28 @@
           price: document.getElementById("price").value,
           thumbnail: document.getElementById("thumbnail").value,
         };
+
+        document.getElementById("tittle").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("thumbnail").value = "";
         socket.emit("nuevo-producto", producto);
         return false;
+      }
+
+      function chat(data){
+        email = data;
+        console.log(email);
+        if(email.includes("@") && email.includes(".")){
+          const html = document.createRange().createContextualFragment(`<a class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
+            <img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img>
+            </a>`);
+          document.getElementById('uchat').appendChild(html);
+          document.getElementById('btn-register').remove();
+          document.getElementById('send-message').value = '';
+        }else{
+          alert("El email ingresado no tiene un formato valido.")
+          document.getElementById('send-message').value = '';
+        }
       }
     </script>
   </body>
