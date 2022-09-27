@@ -377,7 +377,6 @@
       </div>
     </div>
     
-
     <script>
       
       const socket = io.connect();
@@ -387,7 +386,7 @@
       });
 
       socket.on('mensaje', (data) => {
-        appendMessage(data);
+        renderMessage(data);
       })
 
       function footer(data){
@@ -396,17 +395,13 @@
         }).then(function (html) {
         return html.text();
         }).then(function (footer) {
-        render(data, footer);
+        renderProduct(data, footer);
         }).catch(function (error) {
         console.log(error);
         });
       }
 
-      function appendMessage(data){
-        console.log(data);
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(footer, 'text/html');
-        
+      function renderMessage(data){    
         const html = data.map((elemento) => {
           if(elemento.UID == socket.id){
             return `
@@ -427,11 +422,10 @@
                 </div>`;
           }
         }).join('\n');
-        console.log(html)
         document.getElementById('chat-content').innerHTML=html;
       }
 
-      function render(data, footer) {
+      function renderProduct(data, footer) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(footer, 'text/html');
 
