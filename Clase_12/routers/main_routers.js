@@ -1,6 +1,6 @@
 const express = require('express');
 const Router = express.Router();
-const BD_Productos = require('../api/productos');
+const {BD_Productos, Chat} = require('../api/productos');
 
 Router.get('/', (req, res) =>{
     const productos = BD.getAll();
@@ -15,4 +15,5 @@ Router.post('/', (req, res) =>{
 });
 
 const BD = new BD_Productos();
-module.exports = {Router, BD};
+const BD_Messages = new Chat();
+module.exports = {Router, BD, BD_Messages};

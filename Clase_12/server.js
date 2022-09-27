@@ -20,7 +20,7 @@ app.engine('hbs', engine({
     layoutsDir: __dirname + '/views/layouts'
 }));
 
-const { Router, BD } = require('./Routers/main_routers');
+const { Router, BD, BD_Messages } = require('./Routers/main_routers');
 app.use(Router);
 
 app.use('/', Router);
@@ -29,10 +29,16 @@ app.use('/', Router);
 
 io.on("connection", (socket) => {
     console.log("USUARIO CONECTADO");
-	socket.emit("messages", BD.getAll());
+	socket.emit("productos", BD.getAll());
+	socket.emit('mensaje', BD_Messages.getAll());
 
-	socket.on("new-message", (data) => {
+	socket.on("nuevo-producto", (data) => {
 		BD.setProduct(data);
-		io.sockets.emit("messages", BD.getAll());
+		io.sockets.emit("productos", BD.getAll());
+	});
+
+	socket.on('nuevo-mensaje', (data) => {
+		BD_Messages.setMessage(data);
+		io.sockets.emit('mensaje', BD_Messages.getAll());
 	});
 });

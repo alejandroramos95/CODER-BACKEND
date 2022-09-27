@@ -28,7 +28,7 @@
   }
 
   body {
-      background-color: #f9f9fa
+    background-color: #f9f9fa
   }
 
   .card-header:first-child {
@@ -205,8 +205,8 @@
   }
 
   .media-chat.media-chat-reverse {
-      padding-right: 12px;
-      padding-left: 64px;
+      padding-right: 0px;
+      padding-left: 200px;
       -webkit-box-orient: horizontal;
       -webkit-box-direction: reverse;
       flex-direction: row-reverse;
@@ -326,7 +326,7 @@
 
     <h2 style="text-align: center; margin-top: 2cm; color: white;">Ingrese un producto para añadir</h2>
     <div class="row justify-content-center" style="background-color: rgb(83, 80, 80); border-radius: 30px; margin: 1cm;">
-      <form id="Form" onsubmit="addProduct(this)" style="margin: 1cm;">
+      <form id="Form" style="margin: 1cm;">
         <div class="mb-3">
           <label for="tittle" class="form-label" style="color: white;">Título del producto</label>
           <input type="text" placeholder="Título de ejemplo" class="form-control" id="tittle" required>
@@ -340,12 +340,14 @@
           <input type="url" placeholder="https://ejemplo.png" class="form-control" id="thumbnail" required>
         </div>
         <div class="col text-center" style="margin-top: 2.5rem; margin-bottom: 3rem;">
-          <button type="submit" class="btn btn-outline-success" style="align-self: center;">Listar Productos</button>
+          <button type="submit" onclick="addProduct()" class="btn btn-outline-success" style="align-self: center;">Listar Productos</button>
         </div>
       </form>
     </div>
       
     <div id="container"></div>
+
+    <div id="tester"></div>
 
     <div class="page-content page-container" id="page-content">
       <div class="padding">
@@ -357,83 +359,16 @@
                 <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
               </div>
 
-
               <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
-                <div class="media media-chat">
-                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                  <div class="media-body">
-                    <p>Hi</p>
-                    <p>How are you ...???</p>
-                    <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
-                    <p class="meta"><time datetime="2018">23:58</time></p>
-                  </div>
-                </div>
+                
 
-                <div class="media media-meta-day">Today</div>
-
-                <div class="media media-chat media-chat-reverse">
-                  <div class="media-body">
-                    <p>Hiii, I'm good.</p>
-                    <p>How are you doing?</p>
-                    <p>Long time no see! Tomorrow office. will be free on sunday.</p>
-                    <p class="meta"><time datetime="2018">00:06</time></p>
-                  </div>
-                </div>
-
-                <div class="media media-chat">
-                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                  <div class="media-body">
-                    <p>Okay</p>
-                    <p>We will go on sunday? </p>
-                    <p class="meta"><time datetime="2018">00:07</time></p>
-                  </div>
-                </div>
-
-                <div class="media media-chat media-chat-reverse">
-                  <div class="media-body">
-                    <p>That's awesome!</p>
-                    <p>I will meet you Sandon Square sharp at 10 AM</p>
-                    <p>Is that okay?</p>
-                    <p class="meta"><time datetime="2018">00:09</time></p>
-                  </div>
-                </div>
-
-                <div class="media media-chat">
-                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                  <div class="media-body">
-                    <p>Okay i will meet you on Sandon Square </p>
-                    <p class="meta"><time datetime="2018">00:10</time></p>
-                  </div>
-                </div>
-
-                <div class="media media-chat media-chat-reverse">
-                  <div class="media-body">
-                    <p>Do you have pictures of Matley Marriage?</p>
-                    <p class="meta"><time datetime="2018">00:10</time></p>
-                  </div>
-                </div>
-
-                <div class="media media-chat">
-                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                  <div class="media-body">
-                    <p>Sorry I don't have. i changed my phone.</p>
-                    <p class="meta"><time datetime="2018">00:12</time></p>
-                  </div>
-                </div>
-
-                <div class="media media-chat media-chat-reverse">
-                  <div class="media-body">
-                    <p>Okay then see you on sunday!!</p>
-                    <p class="meta"><time datetime="2018">00:12</time></p>
-                  </div>
-                </div>
 
               <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
 
               <div class="publisher bt-1 border-light">
                 <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <input class="publisher-input" type="text" placeholder="Write something">
-                <a class="publisher-btn text-info" href="#" data-abc="true"><img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img></a>
+                <input class="publisher-input" id="send-message" type="text" placeholder="Write something">
+                <a class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true"><img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img></a>
               </div>
 
             </div>
@@ -444,11 +379,16 @@
     
 
     <script>
+      
       const socket = io.connect();
-
-      socket.on("messages", (data) => {
+      
+      socket.on("productos", (data) => {
         footer(data);
       });
+
+      socket.on('mensaje', (data) => {
+        appendMessage(data);
+      })
 
       function footer(data){
         fetch('/',{
@@ -462,6 +402,35 @@
         });
       }
 
+      function appendMessage(data){
+        console.log(data);
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(footer, 'text/html');
+        
+        const html = data.map((elemento) => {
+          if(elemento.UID == socket.id){
+            return `
+                <div class="media media-chat media-chat-reverse">
+                  <div class="media-body">
+                    <p>${elemento.message}</p>
+                    <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
+                  </div>
+                </div>`;
+          }else{
+            return `
+                <div class="media media-chat">
+                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <div class="media-body">
+                    <p>${elemento.message}</p>
+                    <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
+                  </div>
+                </div>`;
+          }
+        }).join('\n');
+        console.log(html)
+        document.getElementById('chat-content').innerHTML=html;
+      }
+
       function render(data, footer) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(footer, 'text/html');
@@ -473,15 +442,26 @@
         } 
       }
 
-      function addProduct(e) {
-        const mensaje = {
+      function addMessage(e){
+        const message = {
+          message: e,
+          dateTime: new Date().toLocaleString('es-PE'),
+          UID: socket.id,
+        }
+        socket.emit('nuevo-mensaje', message);
+      }
+
+      function addProduct() {
+        document.getElementById("Form").addEventListener("click", function(e) {
+          e.preventDefault();
+        });
+
+        const producto = {
           tittle: document.getElementById("tittle").value,
           price: document.getElementById("price").value,
           thumbnail: document.getElementById("thumbnail").value,
         };
-
-        console.log(mensaje);
-        socket.emit("new-message", mensaje);
+        socket.emit("nuevo-producto", producto);
         return false;
       }
     </script>
