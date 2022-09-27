@@ -9,7 +9,6 @@ Router.get('/', (req, res) =>{
 
 Router.post('/', (req, res) =>{
     const productos = BD.getAll();
-    console.log(productos.length);
     productos.length > 0
 	    ? res.render('main',{layout : 'footer_list', 'productos': productos})
         : res.render('main',{layout : 'footer_list'});

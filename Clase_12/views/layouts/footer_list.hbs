@@ -1,6 +1,6 @@
 {{#if productos}}
     <div id="mensajes" class="container mt-3" style="background-color: rgb(83, 80, 80); border-radius: 30px;">
-        <h1 style="text-align: center; margin-top: 2cm; color: black;">Productos añadidos</h1>
+        <h1 id="content" style="text-align: center; margin-top: 2cm; color: black;">Productos añadidos</h1>
         <table class="table" style="margin-top: 1.5cm;">
             <thead>
                 <tr>
@@ -11,9 +11,19 @@
                 </tr>
             </thead>
             <tbody id="products-container">
+                {{#each productos}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.tittle}}</td>
+                        <td>{{this.price}}</td>
+                        <td>
+                            <img src={{this.thumbnail}} height=50 width=50>
+                        </td>
+                    </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
 {{else}}
-    <h1><p id="content" class="container mt-3" style="background-color: rgb(83, 80, 80); border-radius: 30px; text-align: center; color: white;">No hay productos que mostrar</p></h1>
+    <h1 id="no-content" class="container mt-3" style="background-color: rgb(83, 80, 80); border-radius: 30px; text-align: center; color: white;">No hay productos que mostrar</h1>
 {{/if}}
