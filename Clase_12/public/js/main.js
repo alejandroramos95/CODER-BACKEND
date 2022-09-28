@@ -11,13 +11,13 @@ socket.on('mensaje', (data) => {
 
 function footer(data){
     fetch('/',{
-    method: 'POST'
+        method: 'POST'
     }).then(function (html) {
-    return html.text();
+        return html.text();
     }).then(function (footer) {
-    renderProduct(data, footer);
+        renderProduct(data, footer);
     }).catch(function (error) {
-    console.log(error);
+        console.log(error);
     });
 }
 
@@ -45,6 +45,7 @@ function renderMessage(data){
     }
     }).join('\n');
     document.getElementById('chat-content').innerHTML=html;
+    document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
 }
 
 function renderProduct(data, footer) {
@@ -52,9 +53,9 @@ function renderProduct(data, footer) {
     const doc = parser.parseFromString(footer, 'text/html');
 
     if(doc.querySelector('h1').id == 'content'){
-    document.getElementById('container').innerHTML = doc.body.innerHTML;
+        document.getElementById('container').innerHTML = doc.body.innerHTML;
     }else{
-    document.getElementById('container').innerHTML = doc.body.innerHTML;
+        document.getElementById('container').innerHTML = doc.body.innerHTML;
     } 
 }
 
@@ -75,14 +76,15 @@ function addMessage(e){
 }
 
 function addProduct() {
+
     document.getElementById("Form").addEventListener("click", function(e) {
-    e.preventDefault();
+        e.preventDefault();
     });
 
     const producto = {
-    tittle: document.getElementById("tittle").value,
-    price: document.getElementById("price").value,
-    thumbnail: document.getElementById("thumbnail").value,
+        tittle: document.getElementById("tittle").value,
+        price: document.getElementById("price").value,
+        thumbnail: document.getElementById("thumbnail").value,
     };
 
     document.getElementById("tittle").value = "";
@@ -95,16 +97,17 @@ function addProduct() {
 function chat(data){
     email = data;
     if(email.includes("@") && email.includes(".")){
-    const html = document.createRange().createContextualFragment(`<a id="img-submit" class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
-        <img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img>
-        </a>`);
-    document.getElementById('uchat').appendChild(html);
-    document.getElementById('btn-register').remove();
-    document.getElementById('send-message').value = '';
+        const html = document.createRange().createContextualFragment(`<a id="img-submit" class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
+            <img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img>
+            </a>`);
+        document.getElementById('uchat').appendChild(html);
+        document.getElementById('btn-register').remove();
+        document.getElementById('send-message').value = '';
     }else{
-    alert("El email ingresado no tiene un formato valido.")
-    document.getElementById('send-message').value = '';
+        alert("El email ingresado no tiene un formato valido.")
+        document.getElementById('send-message').value = '';
     }
+    document.getElementById('send-message').placeholder = 'Escriba un mensaje';
     const input = document.getElementById('send-message');
 
     input.addEventListener("keypress", function(event) {
@@ -114,6 +117,3 @@ function chat(data){
         }
     });
 }
-
-const scrolled = document.getElementsByClassName("ps-container ps-theme-default ps-active-y");
-console.log(scrolled.scrollHeight);
