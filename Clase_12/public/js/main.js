@@ -59,14 +59,19 @@ function renderProduct(data, footer) {
 }
 
 function addMessage(e){
-    const message = {
-    message: e,
-    email: email,
-    dateTime: new Date().toLocaleString('es-PE'),
-    UID: socket.id,
+    let temp = e;
+    if(temp.replace(/\s/g, '').length != 0){
+        const message = {
+        message: e,
+        email: email,
+        dateTime: new Date().toLocaleString('es-PE'),
+        UID: socket.id,
+        }
+        document.getElementById('send-message').value = "";
+        socket.emit('nuevo-mensaje', message);
+    }else{
+        document.getElementById('send-message').value = "";
     }
-    document.getElementById('send-message').value = "";
-    socket.emit('nuevo-mensaje', message);
 }
 
 function addProduct() {
@@ -89,9 +94,8 @@ function addProduct() {
 
 function chat(data){
     email = data;
-    console.log(email);
     if(email.includes("@") && email.includes(".")){
-    const html = document.createRange().createContextualFragment(`<a class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
+    const html = document.createRange().createContextualFragment(`<a id="img-submit" class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
         <img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img>
         </a>`);
     document.getElementById('uchat').appendChild(html);
@@ -101,4 +105,15 @@ function chat(data){
     alert("El email ingresado no tiene un formato valido.")
     document.getElementById('send-message').value = '';
     }
+    const input = document.getElementById('send-message');
+
+    input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            document.getElementById("img-submit").click();
+        }
+    });
 }
+
+const scrolled = document.getElementsByClassName("ps-container ps-theme-default ps-active-y");
+console.log(scrolled.scrollHeight);
