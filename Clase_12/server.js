@@ -14,6 +14,7 @@ httpServer.listen(8080, () => {
 });
 
 app.set('view engine', 'hbs');
+app.use(express.static('public'));
 app.engine('hbs', engine({
     extname: 'hbs',
     defaultLayout: 'main',
