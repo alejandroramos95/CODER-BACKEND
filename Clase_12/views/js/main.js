@@ -1,8 +1,13 @@
+let email;
 const socket = io.connect();
 
-socket.on("messages", (data) => {
+socket.on("productos", (data) => {
     footer(data);
 });
+
+socket.on('mensaje', (data) => {
+    renderMessage(data);
+})
 
 function footer(data){
     fetch('/',{
@@ -10,46 +15,90 @@ function footer(data){
     }).then(function (html) {
     return html.text();
     }).then(function (footer) {
-    render(data, footer);
+    renderProduct(data, footer);
     }).catch(function (error) {
     console.log(error);
     });
 }
 
-function render(data, footer) {
-    
+function renderMessage(data){    
     const html = data.map((elemento) => {
-        return `<tr>
-        <td>${elemento.id}</td>
-        <td>${elemento.tittle}</td>
-        <td>${elemento.price}</td>
-        <td><img src='${elemento.thumbnail}' height=50 width=50></td>
-        </tr>`;
-    }).join("\n");
-    
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(footer, 'text/html');
-    
-    try{
-    if(doc.getElementById('content').innerHTML == 'No hay productos que mostrar'){
-        document.getElementById('container').innerHTML = doc.body.innerHTML;
-        console.log('MUNDO');
+    if(elemento.UID == socket.id){
+        return `
+            <div class="media media-chat media-chat-reverse">
+            <div class="media-body">
+                <p>${elemento.message}</p>
+                <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
+                <p class="meta">${elemento.email}</p>
+            </div>
+            </div>`;
+    }else{
+        return `
+            <div class="media media-chat">
+            <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+            <div class="media-body">
+                <p>${elemento.message}</p>
+                <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
+                <p class="meta">${elemento.email}</p>
+            </div>
+            </div>`;
     }
-    }catch{
-    doc.getElementById('products-container').innerHTML = html;
-    console.log('HOLA');
-    document.getElementById('container').innerHTML = doc.body.innerHTML;
-    }  
+    }).join('\n');
+    document.getElementById('chat-content').innerHTML=html;
 }
 
-function addMessage(e) {
-    const mensaje = {
+function renderProduct(data, footer) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(footer, 'text/html');
+
+    if(doc.querySelector('h1').id == 'content'){
+    document.getElementById('container').innerHTML = doc.body.innerHTML;
+    }else{
+    document.getElementById('container').innerHTML = doc.body.innerHTML;
+    } 
+}
+
+function addMessage(e){
+    const message = {
+    message: e,
+    email: email,
+    dateTime: new Date().toLocaleString('es-PE'),
+    UID: socket.id,
+    }
+    document.getElementById('send-message').value = "";
+    socket.emit('nuevo-mensaje', message);
+}
+
+function addProduct() {
+    document.getElementById("Form").addEventListener("click", function(e) {
+    e.preventDefault();
+    });
+
+    const producto = {
     tittle: document.getElementById("tittle").value,
     price: document.getElementById("price").value,
     thumbnail: document.getElementById("thumbnail").value,
     };
 
-    console.log(mensaje);
-    socket.emit("new-message", mensaje);
+    document.getElementById("tittle").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("thumbnail").value = "";
+    socket.emit("nuevo-producto", producto);
     return false;
+}
+
+function chat(data){
+    email = data;
+    console.log(email);
+    if(email.includes("@") && email.includes(".")){
+    const html = document.createRange().createContextualFragment(`<a class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
+        <img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img>
+        </a>`);
+    document.getElementById('uchat').appendChild(html);
+    document.getElementById('btn-register').remove();
+    document.getElementById('send-message').value = '';
+    }else{
+    alert("El email ingresado no tiene un formato valido.")
+    document.getElementById('send-message').value = '';
+    }
 }
