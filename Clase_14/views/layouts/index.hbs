@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Mi Aplicación con Sockets</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css"></link>
+  </head>
+
+  <body style="background-color: black;">
+
+    <h2 style="text-align: center; margin-top: 2cm; color: white;">Ingrese un producto para añadir</h2>
+    <div class="row justify-content-center" style="background-color: rgb(83, 80, 80); border-radius: 30px; margin: 1cm;">
+      <form id="Form" style="margin: 1cm;">
+        <div class="mb-3">
+          <label for="tittle" class="form-label" style="color: white;">Título del producto</label>
+          <input type="text" placeholder="Título de ejemplo" class="form-control" id="tittle" required>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label" style="color: white;">Precio</label>
+          <input type="number" placeholder="151.2" min="0.1" step="any"class="form-control" id="price" required>
+        </div>
+        <div class="mb-3">
+          <label for="link-url" class="form-label" style="color: white;">URL</label>
+          <input type="url" placeholder="https://ejemplo.png" class="form-control" id="thumbnail" required>
+        </div>
+        <div class="col text-center" style="margin-top: 2.5rem; margin-bottom: 3rem;">
+          <button type="submit" onclick="addProduct()" class="btn btn-outline-success" style="align-self: center;">Listar Productos</button>
+        </div>
+      </form>
+    </div>
+      
+    <div id="container"></div>
+
+    <div class="page-content page-container" id="page-content">
+      
+      <div class="padding">
+        <div class="row container d-flex justify-content-center">
+          <div class="col-md-6">
+            <div class="card card-bordered">
+              <div class="card-header">
+                <h4 class="card-title"><strong>Chat</strong></h4>
+                <a class="btn btn-xs btn-secondary" onclick="chat(document.getElementById('send-message').value)" data-abc="true" id="btn-register">Empecemos a chatear</a>
+              </div>
+
+              <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                  <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+                  <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+                </div>
+              </div>
+
+              <div class="publisher bt-1 border-light" id="uchat">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="Image">
+                <input class="publisher-input" id="send-message" type="text" placeholder="Registrate con tu email">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

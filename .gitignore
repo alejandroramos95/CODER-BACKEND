@@ -181,4 +181,7 @@ dist
 # Ignore code-workspaces
 *.code-workspace
 
+# Custom ignore files
+PostgreSQL/
+
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,git
