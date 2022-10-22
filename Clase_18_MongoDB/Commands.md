@@ -57,5 +57,5 @@ El usuario solo debe leer la BD llamada _ecommerce_ y no debe tener el privilegi
 
 ```
 db.createUser({ user: "pepe", pwd: "asd456", roles: [{ role: "read", db: "ecommerce" }] });
-db.auth("pepe", "asd456")
+db.auth("pepe", "asd456");
 ```
