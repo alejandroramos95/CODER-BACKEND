@@ -31,7 +31,9 @@ db.productos.insertMany([{"tittle":"Nantucket Cranberry Juice","price":2777,"thu
 
 # CRUD sobre la colección productos
 ## Agregar un producto más a la colección
-`db.productos.insertOne({"tittle": "Cookies - Englishbay Oatmeal","price": 2221,"thumbnail": "http://dummyimage.com/165x100.png/cc0000/ffffff"});`
+```
+db.productos.insertOne({"tittle": "Cookies - Englishbay Oatmeal","price": 2221,"thumbnail": "http://dummyimage.com/165x100.png/cc0000/ffffff"});
+```
 ## Consulta por nombre de prodcuto específico:
 ### Listar los productos con precio menor a 1000
 `db.productos.find({ price: { $lt: 1000 } });`
