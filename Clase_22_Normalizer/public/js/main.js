@@ -1,3 +1,5 @@
+const regex = /^[a-zA-Z ]{4,30}$/;
+const regex_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const socket = io.connect();
 
@@ -75,7 +77,7 @@ async function renderMessage(chat){
     }else{
         return `
             <div class="media media-chat">
-            <img class="avatar" src="${elemento.author.avatar}" alt="Image">
+            <img class="avatar" src="${elemento.author.avatar}" alt="Image" id="avatar-img">
             <div class="media-body">
                 <p>${elemento.text}</p>
                 <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>
@@ -186,12 +188,68 @@ window.onload = () => {
         const age = Number(document.getElementById('age').value);
         const nickname = document.getElementById('nickname').value;
         console.log({email, name, last_name, age, nickname})
-        if(email.trim()!=0 && name.trim()!=0 && last_name.trim()!=0 && (10<=age && age<=100) && nickname.trim()!=0)
+        if(regex_email.test(email) && (regex.test(name) && name.trim()!=0) && (regex.test(last_name) && last_name.trim()!=0) && (10<=age && age<=100) && nickname.trim()!=0)
             createUser();
         else{
             console.log('PAYASO!')
             document.getElementById('btn-register').classList.add('shake-enabled');
             setTimeout(() => {document.getElementById('btn-register').classList.remove('shake-enabled')},1100);
+            if(!regex_email.test(email)){
+                const element_input = document.getElementById('email');
+                const element_label = document.getElementById('email_label');
+                element_input.classList.add('error_input');
+                element_label.classList.add('error_label');
+                element_input.value = '';
+                element_input.addEventListener('input', ()=>{
+                    element_input.classList.remove('error_input');
+                    element_label.classList.remove('error_label');
+                    element_input.removeEventListener('input',null);
+                });
+            }if(!regex.test(name) || name.trim()==0){
+                const element_input = document.getElementById('name');
+                const element_label = document.getElementById('name_label');
+                element_input.classList.add('error_input');
+                element_label.classList.add('error_label');
+                element_input.value = '';
+                element_input.addEventListener('input', ()=>{
+                    element_input.classList.remove('error_input');
+                    element_label.classList.remove('error_label');
+                    element_input.removeEventListener('input',null);
+                });
+            }if(!regex.test(last_name) || last_name.trim()==0){
+                const element_input = document.getElementById('last_name');
+                const element_label = document.getElementById('last_name_label');
+                element_input.classList.add('error_input');
+                element_label.classList.add('error_label');
+                element_input.value = '';
+                element_input.addEventListener('input', ()=>{
+                    element_input.classList.remove('error_input');
+                    element_label.classList.remove('error_label');
+                    element_input.removeEventListener('input',null);
+                });
+            }if(!(10<=age && age<=100)){
+                const element_input = document.getElementById('age');
+                const element_label = document.getElementById('age_label');
+                element_input.classList.add('error_input');
+                element_label.classList.add('error_label');
+                element_input.value = '';
+                element_input.addEventListener('input', ()=>{
+                    element_input.classList.remove('error_input');
+                    element_label.classList.remove('error_label');
+                    element_input.removeEventListener('input',null);
+                });
+            }if(nickname.trim()==0){
+                const element_input = document.getElementById('nickname');
+                const element_label = document.getElementById('nickname_label');
+                element_input.classList.add('error_input');
+                element_label.classList.add('error_label');
+                element_input.value = '';
+                element_input.addEventListener('input', ()=>{
+                    element_input.classList.remove('error_input');
+                    element_label.classList.remove('error_label');
+                    element_input.removeEventListener('input',null);
+                });
+            }
         }
     });
 }
