@@ -1,0 +1,33 @@
+{
+  "name": "clase_12",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "browserify": "^17.0.0",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "handlebars": "^4.7.7",
+    "knex": "^2.3.0",
+    "mongoose": "^6.7.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.20",
+    "normalizr": "^3.6.2",
+    "pg": "^8.8.0",
+    "socket.io": "^4.5.2",
+    "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "nodemon": "^2.0.20"
+  },
+  "description": ""
+}
