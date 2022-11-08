@@ -34,7 +34,14 @@ class Mensajes{
     }
 
     async generateNewID(){
-        return Normalizer.denormalize(await this.getAll()).messages.length;
+        try{
+            await this.mongodb(this.url);
+            const doc = await MessageModel.find({},{"_id":true}).sort({_id:-1}).limit(1);
+            return doc[0]._id+1;
+        }catch(err){
+            console.log(err);
+            return false;
+        }
     }
 
     /**

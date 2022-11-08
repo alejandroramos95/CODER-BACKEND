@@ -13,7 +13,7 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-httpServer.listen(8080, () => {
+httpServer.listen(PORT, () => {
 	console.log("servidor iniciado en: http://localhost:"+PORT);
 });
 
