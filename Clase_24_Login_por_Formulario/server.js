@@ -21,7 +21,7 @@ const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 const sessionStore = MongoStore.create({
 	mongoUrl: 'mongodb+srv://Admin23:ProyectoCoder@backend-coderhouse.r8d7zxk.mongodb.net/eCommerce_Login',
-	ttl: 6*100,
+	ttl: 10*60/* MINUTOS*SEGUNDOS */,
 })
 
 /* MIDDLEWARES */

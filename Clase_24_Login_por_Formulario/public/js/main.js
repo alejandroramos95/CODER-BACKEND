@@ -105,7 +105,7 @@ async function addMessage(messageText){
         }
     }else{
         alert('Su sesión ya no se encuentra activa');
-        window.location.reload();
+        reloadPage()
     }
 }
 /*========================CHAT===================================*/
@@ -169,6 +169,10 @@ async function Login(){
     /* HABILITAR BOTON LOGOUT */
     document.getElementById('logout').addEventListener('click', Logout);
     socket.emit('nuevo-mensaje', null);
+    setTimeout(() => {
+        alert('se acabó tu tiempo');
+        reloadPage()
+    }, 10*60*1000/* MINUTOS*SEGUNDOS*MS */)
     enableChat();
 }
 
@@ -197,6 +201,9 @@ const loadImage = path => {
         reject(e)
       }
     })
+}
+function reloadPage(){
+    window.location.reload();
 }
 /*========================PETICIONES AL SERVIDOR===================================*/
 /**
@@ -228,7 +235,7 @@ async function check_credentials(credentials){
     if(jsonResponse.status){
         alert(`Hasta luego ${author.name}.\n\nCerrando sesión...`);
         sessionStorage.clear();
-        window.location.reload();
+        reloadPage()
     }else{
         alert('Se generó un error al intenar cerrar la sesión.');
     }
