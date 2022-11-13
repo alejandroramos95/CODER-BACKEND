@@ -2,10 +2,11 @@
 const express = require("express");
 const session = require('express-session');
 const { engine } = require("express-handlebars");
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const { Server: IOServer } = require("socket.io");
 const { Server: HttpServer } = require("http");
 const Handlebars = require("handlebars");
-const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
+const MongoStore = require('connect-mongo');
 /* IMPORTACIONES LOCALES */
 const { Router } = require('./Routers/main_routers');
 const { API } = require('./Routers/APIs');
@@ -13,7 +14,6 @@ const { BD_Mensajes } = require('./DB/DAOs/Mensajes.daos');
 const {BD_Productos } = require('./DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('./DB/DAOs/Autores.daos');
 const { Normalizer } = require('./DB/Normalizer/Normalizr');
-const MongoStore = require('connect-mongo');
 /* CREACION DE CONSTANTES */
 const PORT = 8080;
 const app = express();
