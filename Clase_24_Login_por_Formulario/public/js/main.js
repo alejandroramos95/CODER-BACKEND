@@ -322,7 +322,6 @@ async function register_button(){
     }
 }
 window.onload = async() => { 
-    console.log(sessionStorage.getItem('connect.sid'))
     if(await checkLoginAlive()){
         const Response = await fetch('/api/login',{
             method: 'GET',
@@ -348,7 +347,12 @@ window.onload = async() => {
     }
 }
 
-window.onbeforeunload = () => {
+/*
+*   Es importante que la función anónima sea async
+*   porque de no serlo el navegador no esperará que se
+*   termine el proceso.
+*/
+window.onbeforeunload = async() => {
     if(sessionStorage.getItem('saveCache') === 'false'){
         Logout();
     }
