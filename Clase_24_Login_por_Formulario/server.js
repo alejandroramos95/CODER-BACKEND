@@ -8,8 +8,8 @@ const { Server: HttpServer } = require("http");
 const Handlebars = require("handlebars");
 const MongoStore = require('connect-mongo');
 /* IMPORTACIONES LOCALES */
-const { Router } = require('./Routers/main_routers');
-const { API } = require('./Routers/APIs');
+const { Router } = require('./routers/main_routers');
+const { API } = require('./routers/APIs');
 const { BD_Mensajes } = require('./DB/DAOs/Mensajes.daos');
 const {BD_Productos } = require('./DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('./DB/DAOs/Autores.daos');
