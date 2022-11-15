@@ -40,27 +40,36 @@ function enableChat(){
 }
 
 async function createUser(){
-    author = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        last_name: document.getElementById('last_name').value,
-        age: document.getElementById('age').value,
-        nickname: document.getElementById('nickname').value,
-        avatar: document.getElementById('avatar').value,
-        password: document.getElementById('password').value
-    }
-    try{
-        await loadImage(author.avatar)
-    }catch(e){
-        author.avatar = "https://img.icons8.com/color/36/000000/administrator-male.png";
-    }
-    socket.emit('nuevo-usuario', author);
-    const credentials ={
-        username: author.nickname,
-        password: author.password
-    }
-    console.log(await check_credentials(credentials));
-    Login();
+    await socket.emit('checkEmail', document.getElementById('email').value);
+    await socket.on('response-checkEmail', async(response) =>{
+        if(response){
+            author = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                last_name: document.getElementById('last_name').value,
+                age: document.getElementById('age').value,
+                nickname: document.getElementById('nickname').value,
+                avatar: document.getElementById('avatar').value,
+                password: document.getElementById('password').value
+            }
+            try{
+                await loadImage(author.avatar)
+            }catch(e){
+                author.avatar = "https://img.icons8.com/color/36/000000/administrator-male.png";
+            }
+            socket.emit('nuevo-usuario', author);
+            const credentials ={
+                username: author.nickname,
+                password: author.password
+            }
+            console.log(await check_credentials(credentials));
+            Login();
+        }else{
+            document.getElementById('email_label').innerHTML= 'Email: el email ingresado esta en uso';
+            errorEmail();
+        }
+    });
+    
 }
 
 /**

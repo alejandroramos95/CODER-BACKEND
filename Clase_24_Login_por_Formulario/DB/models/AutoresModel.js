@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const AuthorSchema = new mongoose.Schema({
     UID: String,
-    email: String,
+    email: {
+        type:String, 
+        required:true
+    },
     name: String,
     last_name: String,
     age: Number,

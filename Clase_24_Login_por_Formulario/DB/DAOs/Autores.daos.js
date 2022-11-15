@@ -37,12 +37,19 @@ class Autores{
         try{
             await this.mongodb(this.url);
             const doc = await AuthorModel.findById(id).lean();
-            if(doc==null){throw new Error('Autor no encontrado')}
+            if(doc==null){return false;}
             return doc;
         }catch(err){
             console.log(err);
             return false;
         }
+    }
+
+    async checkEmail(email){
+        await this.mongodb(this.url);
+        const doc = await AuthorModel.findOne({email: email})
+        if(doc==null){return true}
+        else{return false};
     }
 
     /**
@@ -52,8 +59,13 @@ class Autores{
     async createAuthor(data){
         try{
             await this.mongodb(this.url);
-            const newCarrito = new AuthorModel(data);
-            return await newCarrito.save()
+            if(await this.checkEmail(data.email)){
+                const newCarrito = new AuthorModel(data);
+                await newCarrito.save();
+                return true;
+            }else{
+                throw new Error('Email no disponible')
+            }
         }catch(err){
             console.log(err);
             return false;

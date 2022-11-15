@@ -41,15 +41,51 @@ window.onbeforeunload = async() => {
     }
 }
 
+async function register_button(){
+    const email = document.getElementById('email').value;
+    const name = document.getElementById('name').value;
+    const last_name = document.getElementById('last_name').value;
+    const age = Number(document.getElementById('age').value);
+    const nickname = document.getElementById('nickname').value;
+    const password = document.getElementById('password').value;
+    console.log({email, name, last_name, age, nickname, password})
+    if(
+        regex_email.test(email) && (regex.test(name) 
+        && name.trim()!=0) && (regex.test(last_name) 
+        && last_name.trim()!=0) && (10<=age && age<=100) 
+        && nickname.trim()!=0 && (password.trim()!=0)
+    )
+        createUser();
+    else{
+        document.getElementById('btn-register').classList.add('shake-enabled');
+        setTimeout(() => {document.getElementById('btn-register').classList.remove('shake-enabled')},1100);
+        if(!regex_email.test(email)){
+            errorEmail();
+        }if(!regex.test(name) || name.trim()==0){
+            errorName();
+        }if(!regex.test(last_name) || last_name.trim()==0){
+            errorLast_name();
+        }if(!(10<=age && age<=100)){
+            errorAge();
+        }if(nickname.trim()==0){
+            errorNickname();
+        }if(password.trim()==0){
+            errorPassword();
+        }
+    }
+}
+
 function errorEmail(){
     const element_input = document.getElementById('email');
     const element_label = document.getElementById('email_label');
     element_input.classList.add('error_input');
     element_label.classList.add('error_label');
     element_input.value = '';
+    
     element_input.addEventListener('input', ()=>{
         element_input.classList.remove('error_input');
         element_label.classList.remove('error_label');
+        element_label.innerHTML = 'Email'
         element_input.removeEventListener('input',null);
     });
 }
@@ -142,38 +178,5 @@ async function login_button(){
         setTimeout(() => {
             element_input.classList.remove('error_login')
         },1100)
-    }
-}
-async function register_button(){
-    const email = document.getElementById('email').value;
-    const name = document.getElementById('name').value;
-    const last_name = document.getElementById('last_name').value;
-    const age = Number(document.getElementById('age').value);
-    const nickname = document.getElementById('nickname').value;
-    const password = document.getElementById('password').value;
-    console.log({email, name, last_name, age, nickname, password})
-    if(
-        regex_email.test(email) && (regex.test(name) 
-        && name.trim()!=0) && (regex.test(last_name) 
-        && last_name.trim()!=0) && (10<=age && age<=100) 
-        && nickname.trim()!=0 && (password.trim()!=0)
-    )
-        createUser();
-    else{
-        document.getElementById('btn-register').classList.add('shake-enabled');
-        setTimeout(() => {document.getElementById('btn-register').classList.remove('shake-enabled')},1100);
-        if(!regex_email.test(email)){
-            errorEmail();
-        }if(!regex.test(name) || name.trim()==0){
-            errorName();
-        }if(!regex.test(last_name) || last_name.trim()==0){
-            errorLast_name();
-        }if(!(10<=age && age<=100)){
-            errorAge();
-        }if(nickname.trim()==0){
-            errorNickname();
-        }if(password.trim()==0){
-            errorPassword();
-        }
     }
 }

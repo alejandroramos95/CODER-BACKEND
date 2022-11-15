@@ -62,6 +62,10 @@ io.on("connection", async(socket) => {
 	socket.on('nuevo-usuario', async (data) => {
 		await BD_Autores.createAuthor(data);
 	});
+
+	socket.on('checkEmail', async (email) => {
+		socket.emit('response-checkEmail', email!=null ?await BD_Autores.checkEmail(email):false);
+	});
 });
 /* ESCUHAR AL SERVIDOR */
 httpServer.listen(PORT, () => {
