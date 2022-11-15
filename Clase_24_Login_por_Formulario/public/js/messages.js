@@ -14,7 +14,7 @@ async function renderMessage(chat){
     }else{
         return `
             <div class="media media-chat">
-            <img class="avatar" src="${elemento.author.avatar}" alt="Image" id="avatar-img">
+            <img class="avatar" src="${elemento.author.avatar}" alt="" id="avatar-img">
             <div class="media-body">
                 <p>${elemento.text}</p>
                 <p class="meta"><time datetime="2018">${elemento.dateTime}</time></p>

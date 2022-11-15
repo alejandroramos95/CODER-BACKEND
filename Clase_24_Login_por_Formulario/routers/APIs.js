@@ -1,9 +1,24 @@
+/* REQUIRES */
 const express = require('express');
+const {BD_Productos} = require('../DB/DAOs/Productos.Faker');
+const { BD_Autores } = require('../DB/DAOs/Autores.daos');
+
+/* CONST Y MIDDLEWARES */
 const API = express.Router();
 API.use(express.json());
 
-const {BD_Productos} = require('../DB/DAOs/Productos.Faker');
-const { BD_Autores } = require('../DB/DAOs/Autores.daos');
+/* FUNCIONES */
+
+function loadDataUser(req, DataUser) {
+    req.session.username = DataUser.nickname;
+    req.session.password = DataUser.password;
+    req.session.email = DataUser.email;
+    req.session.name = DataUser.name;
+    req.session.last_name = DataUser.last_name;
+    req.session.age = DataUser.age;
+    req.session.nickname = DataUser.nickname;
+    req.session.avatar = DataUser.avatar;
+}
 
 /* APIs */
 
@@ -19,16 +34,10 @@ API.post('/login/', async(req, res) => {
     console.log(credentials);
     const response = await BD_Autores.login(credentials);
     if(response.status){
-        const user = await BD_Autores.getById(response.ID);
-        req.session.username = user.nickname;
-        req.session.password = user.password;
-        req.session.email = user.email;
-        req.session.name = user.name;
-        req.session.last_name = user.last_name;
-        req.session.age = user.age;
-        req.session.nickname = user.nickname;
-        req.session.avatar = user.avatar;
-        res.json({status: response.status, data_user: req.session});
+        const DataUser = await BD_Autores.getById(response.ID);
+        delete DataUser.last_name;
+        loadDataUser(req, DataUser)
+        res.json({status: response.status, data_user: req.session})
     }else{
         res.json({status: response.status});
     }

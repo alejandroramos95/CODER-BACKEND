@@ -93,6 +93,11 @@ function drawOnLogin(){
     document.getElementById('text_user').style.display="block";
     document.getElementById('text_user').innerHTML=`Sesión iniciada como: ${author.nickname}`;
 }
+
+function reloadPage(){
+    window.location.reload();
+}
+
 /* Esta función no es mía... */
 const loadImage = path => {
     return new Promise((resolve, reject) => {
@@ -106,7 +111,4 @@ const loadImage = path => {
         reject(e)
       }
     })
-}
-function reloadPage(){
-    window.location.reload();
 }
