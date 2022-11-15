@@ -18,6 +18,7 @@ function loadDataUser(req, DataUser) {
     req.session.age = DataUser.age;
     req.session.nickname = DataUser.nickname;
     req.session.avatar = DataUser.avatar;
+    req.session.UID = DataUser._id;
 }
 
 /* APIs */
@@ -49,8 +50,14 @@ API.get('/login/', async (req, res) => {
         : res.json({status:false});
 });
 
-API.get('/SessionisActive/', (req, res) => {
-    res.json({status: req.session.username ? true : false});
+API.get('/SessionisActive/', async(req, res) => {
+    const response = await BD_Autores.getById(req.session.UID);// POR SI SE ELIMINA EL AUTOR (BANEADO) DE LA BASE DE DATOS LE CIERRA LA SESIÓN
+    if(!response){
+        req.session.destroy()
+        res.json({status: false});
+    }else{
+        res.json({status: req.session.username ? true : false});
+    }   
 })
 
 API.get('/logout/', async (req, res) => {

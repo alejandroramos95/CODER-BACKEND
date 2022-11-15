@@ -37,7 +37,7 @@ class Autores{
         try{
             await this.mongodb(this.url);
             const doc = await AuthorModel.findById(id).lean();
-            if(doc==null){throw new Error()}
+            if(doc==null){throw new Error('Autor no encontrado')}
             return doc;
         }catch(err){
             console.log(err);
