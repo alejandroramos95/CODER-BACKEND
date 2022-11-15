@@ -41,6 +41,26 @@ window.onbeforeunload = async() => {
     }
 }
 
+async function login_button(){
+    const credentials ={
+        username: document.getElementById('username_login').value,
+        password: document.getElementById('password_login').value
+    }
+    console.log(credentials);
+    const Response = await check_credentials(credentials);
+    if(Response.status){
+        author = Response.data_user;
+        delete author.cookie;
+        Login();
+    }else{
+        const element_input = document.getElementById('btn-login');
+        element_input.classList.add('error_login');
+        setTimeout(() => {
+            element_input.classList.remove('error_login')
+        },1100)
+    }
+}
+
 async function register_button(){
     const email = document.getElementById('email').value;
     const name = document.getElementById('name').value;
@@ -161,22 +181,4 @@ function enable_form(){
     document.getElementById("form-warp").style.visibility="visible";
     document.getElementById('form-warp').classList.add('fade-in');
 }
-async function login_button(){
-    const credentials ={
-        username: document.getElementById('username_login').value,
-        password: document.getElementById('password_login').value
-    }
-    console.log(credentials);
-    const Response = await check_credentials(credentials);
-    if(Response.status){
-        author = Response.data_user;
-        delete author.cookie;
-        Login();
-    }else{
-        const element_input = document.getElementById('btn-login');
-        element_input.classList.add('error_login');
-        setTimeout(() => {
-            element_input.classList.remove('error_login')
-        },1100)
-    }
-}
+

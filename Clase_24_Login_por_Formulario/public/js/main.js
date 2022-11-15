@@ -3,6 +3,8 @@ const regex_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let jsonResponse;
 const socket = io.connect();
 
+sessionStorage.setItem('author', {})
+
 let author = {};
 
 socket.on("productos", (data) => {
@@ -78,7 +80,7 @@ async function createUser(){
  * 
  */
 async function Login(){
-    sessionStorage.setItem('saveCache', document.getElementById('check').checked)
+    sessionStorage.setItem('saveCache', document.getElementById('check').checked);
     drawOnLogin();
     /* HABILITAR BOTON LOGOUT */
     document.getElementById('logout').addEventListener('click', Logout);
