@@ -1,19 +1,16 @@
 /*===========================COMPONENTES DEL CHAT========================*/
 window.onload = async() => {
-    const temp = Object.fromEntries(document.cookie.split(/; */).map(c => {
-        const [ key, ...v ] = c.split('=');
-        return [ key, decodeURIComponent(v.join('=')) ];
-    }));
-    author = JSON.parse(temp.data_user.substr(2,temp.data_user.length))
-    console.log(temp);
     if(await checkLoginAlive()){
-        const Response = await fetch('/api/login',{
-            method: 'GET',
-        });
-        author = await Response.json();
-        delete author.cookie;
+        const temp = Object.fromEntries(document.cookie.split(/; */).map(c => {
+            const [ key, ...v ] = c.split('=');
+            return [ key, decodeURIComponent(v.join('=')) ];
+        }));
+        author = JSON.parse(temp.data_user.substr(2,temp.data_user.length))
         Login();
     }else{
+        if(document.cookie.data_user){
+            console.log("xd")
+        }
         document.getElementById('username_login').addEventListener('keypress', (event) => {
             if(event.key === "Enter"){
                 document.getElementById('password_login').select()
@@ -33,17 +30,6 @@ window.onload = async() => {
         document.getElementById('btn-login').addEventListener('click', login_button);
         /* VALIDAR REGISTRO */
         document.getElementById('btn-register').addEventListener('click', register_button);
-    }
-}
-
-/*
-*   Es importante que la función anónima sea async
-*   porque de no serlo el navegador no esperará que se
-*   termine el proceso.
-*/
-window.onbeforeunload = async() => {
-    if(sessionStorage.getItem('saveCache') === 'false'){
-        Logout();
     }
 }
 

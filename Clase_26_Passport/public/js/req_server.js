@@ -21,17 +21,9 @@
  * client
  */
  async function Logout(){
-    const Response = await fetch('/api/logout',{
-        method: 'GET',
-    });
-    const jsonResponse = await Response.json();
-    if(jsonResponse.status){
-        alert(`Hasta luego ${author.name}.\n\nCerrando sesión...`);
-        sessionStorage.clear();
-        reloadPage()
-    }else{
-        alert('Se generó un error al intenar cerrar la sesión.');
-    }
+    alert(`Hasta luego ${author.name}.\n\nCerrando sesión...`);
+    sessionStorage.clear();
+    reloadPage()
 }
 
 /**

@@ -42,8 +42,8 @@ Passport.use('signup', new LocalStrategy({
 			nickname: username,
 			password: password,
 			email: req.body.email,
-			name: req.body.firstName,
-			last_name: req.body.lastName,
+			name: req.body.nickname,
+			last_name: req.body.last_name,
             age: req.body.age,
             avatar: req.body.avatar
 		};

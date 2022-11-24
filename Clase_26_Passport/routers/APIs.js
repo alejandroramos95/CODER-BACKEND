@@ -29,16 +29,6 @@ API.get('/SessionisActive/', checkAutentication, async(req, res) => {
     res.json({status: true});
 })
 
-API.get('/logout/', async (req, res) => {
-    req.session.destroy((err) => {
-        if(err){
-            res.json({status:false});
-        }else{
-            res.json({status:true});
-        }
-    });
-});
-
 function checkAutentication(req, res, next){
     if(req.isAuthenticated()){
         next();

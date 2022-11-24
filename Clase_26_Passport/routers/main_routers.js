@@ -18,13 +18,14 @@ async function createCookie(id){
     delete data_user._id;
     delete data_user.__v;
     delete data_user.password;
-    console.log(data_user);
     return data_user;
 }
 
 Router.get('/', async(req, res) =>{
     if(req.isAuthenticated() && req.cookies.data_user === undefined){
         res.cookie('data_user', await createCookie(req.session.passport.user), {maxAge:60*10000, httpOnly: false})
+    }else if(!req.isAuthenticated()){
+        res.clearCookie("data_user");
     }
     let productos = BD_Productos.getAll();
     res.render('main',{layout : 'index', 'productos': productos});
