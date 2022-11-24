@@ -52,8 +52,12 @@ app.use(Passport.initialize());
 app.use(Passport.session());
 app.use(Passport.authenticate('session'));
 app.use(express.urlencoded({ extended: true }))
+
 app.use('/api/' ,API);
 app.use('/', Router);
+app.use('*',(req, res)=>{
+	res.status(400).render('main', {layout: '404'});
+});
 /* WEBSOCKET */
 io.on("connection", async(socket) => {
     console.log("USUARIO CONECTADO");

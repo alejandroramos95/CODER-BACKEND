@@ -8,9 +8,6 @@ window.onload = async() => {
         author = JSON.parse(temp.data_user.substr(2,temp.data_user.length))
         Login();
     }else{
-        if(document.cookie.data_user){
-            console.log("xd")
-        }
         document.getElementById('username_login').addEventListener('keypress', (event) => {
             if(event.key === "Enter"){
                 document.getElementById('password_login').select()
@@ -40,17 +37,14 @@ async function login_button(){
     }
     console.log(credentials);
     
-    const Response = await check_credentials(credentials);
-    if(Response.status){
-        author = Response.data_user;
-        delete author.cookie;
-        Login();
-    }else{
+    if(((credentials.username).trim()).length<3 || ((credentials.password).trim()).length<3){
         const element_input = document.getElementById('btn-login');
         element_input.classList.add('error_login');
         setTimeout(() => {
             element_input.classList.remove('error_login')
         },1100)
+    }else{
+        document.getElementById('login_form').submit();
     }
 }
 
@@ -68,7 +62,8 @@ async function register_button(){
         && last_name.trim()!=0) && (10<=age && age<=100) 
         && nickname.trim()!=0 && (password.trim()!=0)
     )
-        createUser();
+        document.getElementById('signup_form').submit();
+        //createUser();
     else{
         document.getElementById('btn-register').classList.add('shake-enabled');
         setTimeout(() => {document.getElementById('btn-register').classList.remove('shake-enabled')},1100);

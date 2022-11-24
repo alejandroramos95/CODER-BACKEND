@@ -18,6 +18,7 @@ async function createCookie(id){
     delete data_user._id;
     delete data_user.__v;
     delete data_user.password;
+    console.log(data_user);
     return data_user;
 }
 
@@ -32,17 +33,15 @@ Router.get('/', async(req, res) =>{
 });
 
 Router.get('/fail_login', (req, res) =>{
-    const err = "No se pudo Iniciar Sesión"
-    res.render('main',{layout: 'refused_login', err: err});
+    res.render('main',{layout: 'error_template', err: true});
 });
 
 Router.get('/fail_register', (req, res) =>{
-    const err = "No se pudo crear la cuenta"
-    res.render('main',{layout: 'refused_login', err: err});
+    res.render('main',{layout: 'error_template', err: false});
 });
 
 Router.post('/register', Passport.authenticate('signup',{
-    successRedirect: 'api/login',
+    successRedirect: '/',
     failureRedirect: 'fail_register'
 }));
 
@@ -58,7 +57,4 @@ Router.get('/logout', (req, res) =>{
     res.redirect('/');
 });
 
-Router.get('/test', (req, res) =>{
-    res.render('main', {layout:'test'});
-});
 module.exports = { Router };

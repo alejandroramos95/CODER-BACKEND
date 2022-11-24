@@ -30,19 +30,27 @@ Passport.use('signup', new LocalStrategy({
 	passReqToCallback: true
 }, (req, username, password, done) => {
 	mongoose.connect(process.env.MONGODB_URI);
-	AuthorModel.findOne({nickname: username}, (err, user) => {
+	AuthorModel.findOne({email: req.body.email}, (error, mail) => {
+		if(error){
+			console.log('Error con el registro '+error);
+			return done(err);
+		}if(mail){
+			console.log('Email ya registrado');
+			return done(null, false);
+		}
+		AuthorModel.findOne({nickname: username}, (err, user) => {
 		if(err){
 			console.log('Error con el registro '+err);
 			return done(err);
 		}if(user){
-			console.log('Usuario ya existe');
+			console.log('Nombre de usuario ya existe');
 			return done(null, false);
 		}
 		const newUser = {
 			nickname: username,
 			password: password,
 			email: req.body.email,
-			name: req.body.nickname,
+			name: req.body.name,
 			last_name: req.body.last_name,
             age: req.body.age,
             avatar: req.body.avatar
@@ -57,6 +65,8 @@ Passport.use('signup', new LocalStrategy({
 			return done(null, userWithID);
 		});
 	})
+	});
+	
 }
 ));
 

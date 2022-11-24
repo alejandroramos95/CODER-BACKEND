@@ -57,7 +57,7 @@
                     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Registro</label>
                       <div class="login-form">
                         {{!-- REGISTRO --}}
-                        <form class="sign-up-htm" action="register" method="POST" id="signup">
+                        <form class="sign-up-htm" action="register" method="POST" id="signup_form" onsubmit="event.preventDefault()">
                           <div class="group">
                             <label for="email" class="label" id="email_label">Email</label>
                             <input id="email" name="email" type="text" class="input">
@@ -76,7 +76,7 @@
                           </div>
                           <div class="group">
                             <label for="nickname" class="label" id="nickname_label">Nombre de usuario</label>
-                            <input id="nickname" name="nickname" type="text" class="input">
+                            <input id="nickname" name="username" type="text" class="input">
                           </div>
                           <div class="group">
                             <label for="password" class="label" id="password_label">Contraseña</label>
@@ -91,18 +91,14 @@
                           </div>
                         </form>
                         {{!-- INICIAR SESIÓN --}}
-                        <form class="sign-in-htm" id="login_form" method="POST" action="login">
+                        <form class="sign-in-htm" id="login_form" method="POST" action="login" onsubmit="event.preventDefault()">
                           <div class="group">
-                            <label for="username_login" class="label">Usuario</label>
+                            <label for="username_login" class="label" id="username_login_label">Usuario</label>
                             <input type="text" class="input" name="username" id="username_login">
                           </div>
-                          <div class="group">
+                          <div class="group" style="margin-bottom: 50px;">
                             <label for="password_login" class="label">Contraseña</label>
                             <input id="password_login" type="password" name="password" class="input" data-type="password">
-                          </div>
-                          <div class="group">
-                            <input id="check" type="checkbox" class="check" checked>
-                            <label for="check" class="icon_text"><span class="icon"></span>Recuérdame</label>
                           </div>
                           <div class="group">
                             <input type="submit" class="button" id="btn-login" value="Iniciar Sesión">
