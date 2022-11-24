@@ -7,13 +7,13 @@ const LocalStrategy = require("passport-local").Strategy;
 try{
 	Passport.use('login', 
 		new LocalStrategy(
-			(username, password, done) => {
-				console.log(username + '<--DATOS-->' + password);
+			(email, password, done) => {
+				console.log(email + '<--DATOS-->' + password);
 				mongoose.connect(process.env.MONGODB_URI);
-				AuthorModel.findOne({nickname: username}, (err, user) => {
+				AuthorModel.findOne({email: email}, (err, user) => {
 					if(err)return done(err);
 					if(!user){
-						console.log('Usuario no encontrado '+username);
+						console.log('Usuario no encontrado '+email);
 						return done(null, false);
 					}if(!isValidPassword(user, password)){
 						console.log('Contraseña invalida');
