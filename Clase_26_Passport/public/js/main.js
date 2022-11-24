@@ -80,7 +80,6 @@ async function createUser(){
  * 
  */
 async function Login(){
-    sessionStorage.setItem('saveCache', document.getElementById('check').checked);
     drawOnLogin();
     /* HABILITAR BOTON LOGOUT */
     document.getElementById('logout').addEventListener('click', Logout);
@@ -102,7 +101,7 @@ function drawOnLogin(){
     document.getElementById('send-message').disabled = false;
     document.getElementById('logout').style.display="block";
     document.getElementById('text_user').style.display="block";
-    document.getElementById('text_user').innerHTML=`Sesión iniciada como: ${author.nickname}`;
+    document.getElementById('text_user').innerHTML=`Sesión iniciada como: ${author.nickname}<br>email: ${author.email}`;
 }
 
 function reloadPage(){

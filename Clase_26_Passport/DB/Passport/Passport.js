@@ -1,6 +1,7 @@
 const { AuthorModel } = require("../models/AutoresModel");
 const Passport = require('passport');
 const mongoose = require("mongoose");
+const bCrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 
 try{
@@ -14,7 +15,7 @@ try{
 					if(!user){
 						console.log('Usuario no encontrado '+username);
 						return done(null, false);
-					}if(user.password!=password){
+					}if(!isValidPassword(user, password)){
 						console.log('Contraseña invalida');
 						return done(null, false);
 					}
@@ -48,7 +49,7 @@ Passport.use('signup', new LocalStrategy({
 		}
 		const newUser = {
 			nickname: username,
-			password: password,
+			password: createHash(password),
 			email: req.body.email,
 			name: req.body.name,
 			last_name: req.body.last_name,
@@ -78,14 +79,10 @@ Passport.deserializeUser((id, done) =>{
 	AuthorModel.findById(id, done);
 });
 
-function loadDataUser(req, DataUser) {
-    req.session.username = DataUser.nickname;
-    req.session.password = DataUser.password;
-    req.session.email = DataUser.email;
-    req.session.name = DataUser.name;
-    req.session.last_name = DataUser.last_name;
-    req.session.age = DataUser.age;
-    req.session.nickname = DataUser.nickname;
-    req.session.avatar = DataUser.avatar;
-    req.session.UID = DataUser._id;
+function isValidPassword(user, password){
+	return bCrypt.compareSync(password, user.password);
+}
+
+function createHash(password){
+	return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 }

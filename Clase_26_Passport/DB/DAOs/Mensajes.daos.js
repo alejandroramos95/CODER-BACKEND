@@ -49,7 +49,8 @@ class Mensajes{
     async generateID(){
         try{
             await this.mongodb(this.url);
-            const doc = await MessageModel.find({},{"_id":true}).sort({_id:-1}).limit(1);
+            const doc = await MessageModel.find({},{"_id":true}).sort({_id:-1}).limit(1).lean();
+            if(doc.length == 0){return 0};
             return doc[0]._id+1;
         }catch(err){
             console.log(err);
