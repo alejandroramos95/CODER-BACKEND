@@ -1,4 +1,5 @@
 /* IMPORTACIONES POR NPM */
+require('dotenv').config();
 const express = require("express");
 const session = require('express-session');
 const { engine } = require("express-handlebars");
@@ -20,7 +21,7 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 const sessionStore = MongoStore.create({
-	mongoUrl: 'mongodb+srv://Admin23:ProyectoCoder@backend-coderhouse.r8d7zxk.mongodb.net/eCommerce_Login',
+	mongoUrl: process.env.MONGODB_URI,
 	ttl: 10*60/* MINUTOS*SEGUNDOS */,
 })
 

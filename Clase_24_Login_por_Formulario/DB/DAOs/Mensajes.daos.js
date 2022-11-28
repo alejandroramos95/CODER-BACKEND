@@ -8,8 +8,7 @@ class Mensajes{
      * It connects to the database.
      */
     constructor(){
-        this.url = 
-        "mongodb+srv://Admin23:ProyectoCoder@backend-coderhouse.r8d7zxk.mongodb.net/eCommerce_Login";
+        this.url = process.env.MONGODB_URI;
         this.mongodb = mongoose.connect;
     }
 
