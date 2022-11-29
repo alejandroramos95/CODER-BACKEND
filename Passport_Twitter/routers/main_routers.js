@@ -7,8 +7,25 @@ const { BD_Autores } = require('../DB/DAOs/Autores.daos')
 const { BD_Autores_Twitter } = require('../DB/DAOs/Autores_Twitter.daos')
 
 /* FUNCIONES */
-function checkAutentication(req, res, next){
+function checkUnAutentication(req, res, next){
+    if(req.isUnauthenticated()){
+        next();
+    }else{
+        res.redirect('/');
+    }
+}
+
+function checkAuthentication(req, res, next){
     if(req.isAuthenticated()){
+        next();
+    }else{
+        res.redirect('/');
+    }
+}
+
+async function formComplete(req, res, next){
+    const Autor = await BD_Autores_Twitter.getById(req.session.passport.user);
+    if(Autor.email){
         res.redirect('/');
     }else{
         next();
@@ -25,7 +42,6 @@ async function createCookie(id){
 
 /* ROUTERS */
 Router.get('/', async(req, res) =>{
-    console.log("Esta autenticado: "+req.isAuthenticated());
     if(req.isAuthenticated() && req.cookies.data_user === undefined){
         if(typeof req.session.passport.user === 'number' && await BD_Autores_Twitter.isNewUser(req.session.passport.user)){
             res.redirect('/auth/twitter/registration');
@@ -33,23 +49,19 @@ Router.get('/', async(req, res) =>{
         }else{
             res.cookie('data_user', await createCookie(req.session.passport.user), {maxAge:60*10000, httpOnly: false})
         }
-    }else if(!req.isAuthenticated()){
+    }else if(req.isUnauthenticated()){
         res.clearCookie("data_user");
     }
     let productos = BD_Productos.getAll();
     res.render('main',{layout : 'index', 'productos': productos});
 });
 
-Router.get('/auth/twitter/registration', async(req, res) => {
-    if(req.isUnauthenticated())
-        res.redirect('/');
-    else{
-        const user_data = await BD_Autores_Twitter.getById(req.session.passport.user);
-        res.render('main', {layout: 'twitter_registration', user_data: user_data});
-    }
+Router.get('/auth/twitter/registration', checkAuthentication, formComplete, async(req, res) => {
+    const user_data = await BD_Autores_Twitter.getById(req.session.passport.user);
+    res.render('main', {layout: 'twitter_registration', user_data: user_data});
 });
 
-Router.post('/auth/twitter/registration', async(req, res) => {
+Router.post('/auth/twitter/registration', checkAuthentication, async(req, res) => {
     req.body.id = req.session.passport.user;
     await BD_Autores_Twitter.completeDatauser(req.body);
     res.redirect('/');
@@ -65,29 +77,30 @@ Router.get('/fail_register', (req, res) =>{
 });
 //=======================
 //REGISTER AND LOGIN
-Router.post('/register', Passport.authenticate('signup',{
+Router.post('/register', checkUnAutentication, Passport.authenticate('signup',{
     successRedirect: '/',
     failureRedirect: 'fail_register'
 }));
 
-Router.post('/login', checkAutentication, Passport.authenticate('login',{
+Router.post('/login', checkUnAutentication, Passport.authenticate('login',{
     successRedirect: '/',
     failureRedirect: '/fail_login'
 }));
 
-Router.get('/auth/twitter', Passport.authenticate('twitter'));
+Router.get('/auth/twitter', checkUnAutentication, Passport.authenticate('twitter'));
 
-Router.get('/auth/twitter/login', Passport.authenticate('twitter',{
+Router.get('/auth/twitter/login', checkUnAutentication, Passport.authenticate('twitter',{
     successRedirect: '/',
     failureRedirect: '/fail_login'
 }));
 //======================
 //LOGOUT
 Router.get('/logout', (req, res) =>{
-    req.logOut(function(err){
-        if(err)return next(err);
+    res.clearCookie('credentials_session');
+    req.session.destroy((err) => {
+        if(err)console.log(err);
+        res.redirect('/');
     });
-    res.redirect('/');
 });
 
 module.exports = { Router };

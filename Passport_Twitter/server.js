@@ -56,14 +56,6 @@ app.use(Passport.initialize());
 app.use(Passport.session());
 app.use(Passport.authenticate('session'));
 app.use(express.urlencoded({ extended: true }))
-app.use(
-	cors({
-		origin: "http://localhost:3000", // allow to server to accept request from different origin
-		methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-		credentials: true // allow session cookie from browser to pass through
-	})
-);
-
 app.use('/api/' ,API);
 app.use('/', Router);
 app.use('*',(req, res)=>{
