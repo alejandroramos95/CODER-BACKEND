@@ -72,13 +72,13 @@ class Autores_Twitter{
             this.mongodb(this.url);
             if(await this.checkEmail(data.email)){
                 const user = await TwitterAuthorModel.findOne({_id: data.id});
-                console.log(user);
                 user.email = data.email;
                 user.name = data.name;
                 user.last_name = data.last_name;
                 user.age = data.age;
                 user.password = data.password;
                 user.nickname = data.nickname;
+                user.Timestamp = this.setTimestamp(new Date());
                 if(data.avatar!=""){user.avatar = data.avatar;}
                 await user.save();
                 return true;

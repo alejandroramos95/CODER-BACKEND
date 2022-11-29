@@ -11,7 +11,8 @@ const TwitterAuthorSchema = new mongoose.Schema({
     age: Number,
     nickname: String,
     avatar: String,
-    password: String
+    password: String,
+    Timestamp: String
 });
 
 TwitterAuthorSchema.plugin(findOrCreate);

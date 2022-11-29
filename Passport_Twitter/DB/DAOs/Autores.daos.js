@@ -53,14 +53,15 @@ class Autores{
 
     /**
      * It creates a new carrito (cart) in the database.
-     * @returns The newCarrito object is being returned.
+     * @returns The newAuthor object is being returned.
      */
     async createAuthor(data){
         try{
             await this.mongodb(this.url);
             if(await this.checkEmail(data.email)){
-                const newCarrito = new AuthorModel(data);
-                await newCarrito.save();
+                const newAuthor = new AuthorModel(data);
+                newAuthor.Timestamp = this.setTimestamp(new Date());
+                await newAuthor.save();
                 return true;
             }else{
                 throw new Error('Email no disponible')

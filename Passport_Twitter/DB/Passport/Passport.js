@@ -74,7 +74,6 @@ Passport.use(new TwitterStrategy({
 	consumerSecret:process.env.TWITTER_COSUMER_SECRET,
 	callbackURL: process.env.CALLBACK_URL
 }, function(token, tokenSecret, profile, done){
-	console.log(profile);
 	mongoose.connect(process.env.MONGODB_URI);
 	TwitterAuthorModel.findOrCreate({_id: Number(profile.id), avatar: profile._json.profile_image_url_https, nickname: profile._json.name}, function(err, user){
 		if(err){return done(err)}

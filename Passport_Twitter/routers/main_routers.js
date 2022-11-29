@@ -20,7 +20,6 @@ async function createCookie(id){
     delete data_user._id;
     delete data_user.__v;
     delete data_user.password;
-    console.log(data_user);
     return data_user;
 }
 
@@ -28,7 +27,7 @@ async function createCookie(id){
 Router.get('/', async(req, res) =>{
     console.log("Esta autenticado: "+req.isAuthenticated());
     if(req.isAuthenticated() && req.cookies.data_user === undefined){
-        if(await BD_Autores_Twitter.isNewUser(req.session.passport.user)){
+        if(typeof req.session.passport.user === 'number' && await BD_Autores_Twitter.isNewUser(req.session.passport.user)){
             res.redirect('/auth/twitter/registration');
             return;
         }else{
