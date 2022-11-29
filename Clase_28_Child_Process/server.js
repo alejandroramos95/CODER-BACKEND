@@ -10,6 +10,7 @@ const { Server: HttpServer } = require("http");
 const Handlebars = require("handlebars");
 const MongoStore = require('connect-mongo');
 const Passport = require('passport');
+const yargs = require('yargs');
 /* IMPORTACIONES LOCALES */
 const { Strategy } = require('./DB/Passport/Passport');
 const { Router } = require('./routers/main_routers');
@@ -18,8 +19,18 @@ const { BD_Mensajes } = require('./DB/DAOs/Mensajes.daos');
 const {BD_Productos } = require('./DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('./DB/DAOs/Autores.daos');
 const { Normalizer } = require('./DB/Normalizer/Normalizr');
+/* CREACION DE COMANDOS */
+const args = yargs(process.argv.slice(2)).alias({
+	m: 'mode',
+	p: 'port',
+	d: 'debug'
+}).default({
+	mode: "prod",
+	port: 8080,
+	debug: false
+}).argv
 /* CREACION DE CONSTANTES */
-const PORT = isNaN(parseInt(process.argv[2]))?8080:parseInt(process.argv[2]);
+const PORT = args.p;
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);

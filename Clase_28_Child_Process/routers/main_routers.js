@@ -1,10 +1,12 @@
 const express = require('express');
 const Router = express.Router();
 const Passport = require('passport');
-Router.use(express.json());
 const {BD_Productos} = require('../DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('../DB/DAOs/Autores.daos')
-
+const yargs = require('yargs');
+const args = yargs(process.argv.slice(2))
+.alias({m: 'mode',p: 'port',d: 'debug'}).default({mode: "prod",port: 8080,debug: false}).argv
+Router.use(express.json());
 /* FUNCIONES */
 function checkAutentication(req, res, next){
     if(req.isAuthenticated()){
@@ -25,7 +27,7 @@ async function createCookie(id){
 
 function info_data(){
     return {
-        PORT: isNaN(parseInt(process.argv[2]))?8080:parseInt(process.argv[2]),
+        PORT: args.p,
         OS: process.platform,
         NODE_V: process.version,
         MEMORY: process.memoryUsage.rss()/1e+6,
