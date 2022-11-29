@@ -5,6 +5,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const Passport = require('passport');
+const yargs = require('yargs');
 const { engine } = require("express-handlebars");
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const { Server: IOServer } = require("socket.io");
@@ -19,8 +20,11 @@ const { BD_Mensajes } = require('./DB/DAOs/Mensajes.daos');
 const {BD_Productos } = require('./DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('./DB/DAOs/Autores.daos');
 const { Normalizer } = require('./DB/Normalizer/Normalizr');
+/* COMANDOS POR TERMINAL */
+const comand = yargs(process.argv.slice(2))
+.alias({p: 'port'}).default({port: 8080}).argv
 /* CREACION DE CONSTANTES */
-const PORT = 8080;
+const PORT = comand.p;
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
@@ -28,7 +32,6 @@ const sessionStore = MongoStore.create({
 	mongoUrl: process.env.MONGODB_URI,
 	ttl: 10*60/* MINUTOS*SEGUNDOS */,
 })
-
 /* MIDDLEWARES */
 app.set('view engine', 'hbs');
 app.use(express.static('public'));

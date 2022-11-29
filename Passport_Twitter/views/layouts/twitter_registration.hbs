@@ -20,37 +20,39 @@
 </head>
 
 <body>
-    <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins" style="padding-top: 100px;">
         <div class="wrapper wrapper--w780">
             <div class="card card-3">
                 <div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">Registro por Twitter</h2>
                     <form method="POST">
-                        <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Nombre de Usuario" name="username" required>
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Nombres" name="name" required>
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Apellidos" name="last_name" required>
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="number" min="10" max="80" placeholder="Edad" name="age" required>
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="email" placeholder="Email" name="email" required>
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="password" placeholder="Password" name="password" required>
-                        </div>
-                        <div class="input-group">
-                            <input class="input--style-3" type="text" placeholder="Imagen de perfil" name="avatar">
-                        </div>
-                        <div class="p-t-10">
-                            <button class="btn btn--pill btn--green" type="submit">Submit</button>
-                        </div>
+                        {{#with user_data}}
+                            <div class="input-group">
+                                <input class="input--style-3" type="text" placeholder="Nombre de Usuario" name="nickname" value="{{nickname}}" required>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-3" type="text" placeholder="Nombres" name="name" required>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-3" type="text" placeholder="Apellidos" name="last_name" required>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-3" type="number" min="10" max="80" placeholder="Edad" name="age" required>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-3" type="email" placeholder="Email" name="email" required>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-3" type="password" placeholder="Password" name="password" required>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-3" type="text" placeholder="Imagen de perfil" name="avatar" value="{{avatar}}">
+                            </div>
+                            <div class="p-t-10">
+                                <button class="btn btn--pill btn--green" type="submit">Submit</button>
+                            </div>
+                        {{/with}}
                     </form>
                 </div>
             </div>

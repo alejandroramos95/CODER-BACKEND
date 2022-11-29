@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const findOrCreate = require ('mongoose-findorcreate');
 
 const TwitterAuthorSchema = new mongoose.Schema({
-    twitter_id: Number,
+    _id: Number,
     email: {
         type:String
     },

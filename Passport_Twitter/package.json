@@ -26,7 +26,8 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "socket.io": "^4.5.2"
+    "socket.io": "^4.5.2",
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0"

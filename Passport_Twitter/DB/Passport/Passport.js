@@ -76,7 +76,7 @@ Passport.use(new TwitterStrategy({
 }, function(token, tokenSecret, profile, done){
 	console.log(profile);
 	mongoose.connect(process.env.MONGODB_URI);
-	TwitterAuthorModel.findOrCreate({twitter_id: Number(profile.id), avatar: profile._json.profile_image_url_https}, function(err, user){
+	TwitterAuthorModel.findOrCreate({_id: Number(profile.id), avatar: profile._json.profile_image_url_https, nickname: profile._json.name}, function(err, user){
 		if(err){return done(err)}
 		done(null, user);
 	});
@@ -87,5 +87,9 @@ Passport.serializeUser((user, done) =>{
 });
 Passport.deserializeUser((id, done) =>{
 	mongoose.connect(process.env.MONGODB_URI);
-	AuthorModel.findById(id, done);
+	if(typeof id === 'number'){
+		TwitterAuthorModel.findById(id, done);
+	}else{
+		AuthorModel.findById(id, done);
+	}
 });
