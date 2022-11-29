@@ -19,7 +19,7 @@ const {BD_Productos } = require('./DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('./DB/DAOs/Autores.daos');
 const { Normalizer } = require('./DB/Normalizer/Normalizr');
 /* CREACION DE CONSTANTES */
-const PORT = isNaN(Number(process.argv[2]))?8080:Number(process.argv[2]);
+const PORT = isNaN(parseInt(process.argv[2]))?8080:parseInt(process.argv[2]);
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);

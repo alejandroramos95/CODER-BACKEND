@@ -25,7 +25,7 @@ async function createCookie(id){
 
 function info_data(){
     return {
-        PORT: isNaN(Number(process.argv[2]))?8080:Number(process.argv[2]),
+        PORT: isNaN(parseInt(process.argv[2]))?8080:parseInt(process.argv[2]),
         OS: process.platform,
         NODE_V: process.version,
         MEMORY: process.memoryUsage.rss()/1e+6,
@@ -48,7 +48,6 @@ Router.get('/', async(req, res) =>{
 
 Router.get('/info', (req, res)=>{
     info = info_data();
-    console.log(info)
     res.render('main',{layout : 'info', 'data':info});
 });
 
