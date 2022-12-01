@@ -16,13 +16,18 @@ socket.on('mensaje', (data) => {
 })
 
 /*========================CHAT===================================*/
-function enableChat(){
+async function enableChat(){
 
     const html = document.createRange().createContextualFragment(
         `<a id="img-submit" class="publisher-btn text-info" onclick="addMessage(document.getElementById('send-message').value)" data-abc="true">
         <img src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Airplane-PNG.png" class="fa fa-paper-plane"></img>
         </a>`
     );
+    try{
+        await loadImage(author.avatar)
+    }catch(e){
+        author.avatar = "https://img.icons8.com/color/36/000000/administrator-male.png";
+    }
     document.getElementById('user-img').src= author.avatar
     document.getElementById('uchat').appendChild(html);
     document.getElementById('btn-register').removeEventListener('click', register_button);

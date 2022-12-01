@@ -117,6 +117,7 @@ Passport.use(new GoogleStrategy({
 	callbackURL: process.env.GOOGLE_CALLBACK_URL
 }, function(accessToken, refreshToken, profile, done){
 	mongoose.connect(process.env.MONGODB_URI);
+	/* SE TIENE QUE BUSCAR SOLO POR ID */
 	GoogleAuthorModel.findOrCreate({
 		_id: profile._json.sub, 
 		avatar: profile._json.picture, 
