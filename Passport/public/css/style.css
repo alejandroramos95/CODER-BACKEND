@@ -175,3 +175,15 @@ width: 20px;
 .social {
     width: 7cm;
 }
+
+.socials_group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1cm;
+    margin-top: 1cm;
+}
+
+.social {
+    height: 50px;
+    border-radius: 5px;
+}

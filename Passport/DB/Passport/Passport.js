@@ -1,9 +1,11 @@
-const { AuthorModel } = require("../models/AutoresModel");
-const { TwitterAuthorModel } = require('../models/TwitterModel');
 const Passport = require('passport');
 const mongoose = require("mongoose");
 const LocalStrategy = require("passport-local").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
+const GitHubStrategy = require("passport-github2").Strategy;
+const { AuthorModel } = require("../models/AutoresModel");
+const { TwitterAuthorModel } = require('../models/TwitterModel');
+const { GitHubAuthorModel } = require('../models/GitHubModel');
 
 Passport.use('login', 
 	new LocalStrategy(
@@ -52,7 +54,8 @@ Passport.use('signup', new LocalStrategy({
 			name: req.body.name,
 			last_name: req.body.last_name,
             age: req.body.age,
-            avatar: req.body.avatar
+            avatar: req.body.avatar,
+			linked_account: "local"
 		};
 		AuthorModel.create(newUser, (err, userWithID)=>{
 			if(err){
@@ -68,27 +71,54 @@ Passport.use('signup', new LocalStrategy({
 	
 }
 ));
-
+/* TWITTER STRATEGY */
 Passport.use(new TwitterStrategy({
-	consumerKey:process.env.TWITTER_COSUMER_KEY,
-	consumerSecret:process.env.TWITTER_COSUMER_SECRET,
-	callbackURL: process.env.CALLBACK_URL
+	consumerKey: process.env.TWITTER_COSUMER_KEY,
+	consumerSecret: process.env.TWITTER_COSUMER_SECRET,
+	callbackURL: process.env.TWITTER_CALLBACK_URL
 }, function(token, tokenSecret, profile, done){
 	mongoose.connect(process.env.MONGODB_URI);
-	TwitterAuthorModel.findOrCreate({_id: Number(profile.id), avatar: profile._json.profile_image_url_https, nickname: profile._json.name}, function(err, user){
+	TwitterAuthorModel.findOrCreate({
+		_id: Number(profile.id), 
+		avatar: profile._json.profile_image_url_https, 
+		nickname: profile._json.name,
+		linked_account: "Twitter"
+	}, function(err, user){
 		if(err){return done(err)}
 		done(null, user);
 	});
 }));
-
-Passport.serializeUser((user, done) =>{
-	done(null, user._id);
-});
-Passport.deserializeUser((id, done) =>{
+/* GITHUB STRATEGY */
+Passport.use(new GitHubStrategy({
+	clientID: process.env.GITHUB_CLIENT_ID,
+	clientSecret: process.env.GITHUB_CLIENT_SECRET,
+	callbackURL: process.env.GITHUB_CALLBACK_URL
+}, function(accessToken, refreshToken, profile, done){
 	mongoose.connect(process.env.MONGODB_URI);
-	if(typeof id === 'number'){
-		TwitterAuthorModel.findById(id, done);
+	const [first, second, middle, last] = profile._json.name.split(' ');
+	GitHubAuthorModel.findOrCreate({
+		_id: profile._json.id, 
+		avatar: profile._json.avatar_url, 
+		nickname: profile._json.login,
+		name: first+' '+second,
+		last_name: middle+' '+last,
+		linked_account: "GitHub"
+	}, function(err, user){
+		if(err){return done(err)}
+		done(null, user);
+	});
+}));
+/* SERIALIZE AND DESERIALIZE */
+Passport.serializeUser((user, done) =>{
+	done(null, {id: user._id, linked_account: user.linked_account});
+});
+Passport.deserializeUser((user_data, done) =>{
+	mongoose.connect(process.env.MONGODB_URI);
+	if(user_data.linked_account === 'Twitter'){
+		TwitterAuthorModel.findById(user_data.id, done);
+	}else if(user_data.linked_account === 'GitHub'){
+		GitHubAuthorModel.findById(user_data.id, done);
 	}else{
-		AuthorModel.findById(id, done);
+		AuthorModel.findById(user_data.id, done);
 	}
 });

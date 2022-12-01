@@ -15,6 +15,7 @@ specifiers:
   mongoose-findorcreate: ^3.0.0
   nodemon: ^2.0.20
   passport: ^0.6.0
+  passport-github2: ^0.1.12
   passport-local: ^1.0.0
   passport-twitter: ^1.0.4
   socket.io: ^4.5.2
@@ -34,6 +35,7 @@ dependencies:
   mongoose-findorcreate: 3.0.0
   nodemon: 2.0.20
   passport: 0.6.0
+  passport-github2: 0.1.12
   passport-local: 1.0.0
   passport-twitter: 1.0.4
   socket.io: 4.5.3
@@ -896,6 +898,11 @@ packages:
     engines: {node: ^4.5.0 || >= 5.9}
     dev: false
 
+  /base64url/3.0.1:
+    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
+    engines: {node: '>=6.0.0'}
+    dev: false
+
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -1682,6 +1689,13 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
+  /passport-github2/0.1.12:
+    resolution: {integrity: sha512-3nPUCc7ttF/3HSP/k9sAXjz3SkGv5Nki84I05kSQPo01Jqq1NzJACgMblCK0fGcv9pKCG/KXU3AJRDGLqHLoIw==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      passport-oauth2: 1.6.1
+    dev: false
+
   /passport-local/1.0.0:
     resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==}
     engines: {node: '>= 0.4.0'}
@@ -1695,6 +1709,17 @@ packages:
     dependencies:
       oauth: 0.9.15
       passport-strategy: 1.0.0
+      utils-merge: 1.0.1
+    dev: false
+
+  /passport-oauth2/1.6.1:
+    resolution: {integrity: sha512-ZbV43Hq9d/SBSYQ22GOiglFsjsD1YY/qdiptA+8ej+9C1dL1TVB+mBE5kDH/D4AJo50+2i8f4bx0vg4/yDDZCQ==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
+      base64url: 3.0.1
+      oauth: 0.9.15
+      passport-strategy: 1.0.0
+      uid2: 0.0.4
       utils-merge: 1.0.1
     dev: false
 
@@ -2024,6 +2049,10 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       random-bytes: 1.0.0
+    dev: false
+
+  /uid2/0.0.4:
+    resolution: {integrity: sha512-IevTus0SbGwQzYh3+fRsAMTVVPOoIVufzacXcHPmdlle1jUpq7BRL+mw3dgeLanvGZdwwbWhRV6XrcFNdBmjWA==}
     dev: false
 
   /undefsafe/2.0.5:

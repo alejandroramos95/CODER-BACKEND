@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require("express");
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const cors = require("cors");
 const Passport = require('passport');
 const yargs = require('yargs');
 const { engine } = require("express-handlebars");
@@ -13,7 +12,7 @@ const { Server: HttpServer } = require("http");
 const Handlebars = require("handlebars");
 const MongoStore = require('connect-mongo');
 /* IMPORTACIONES LOCALES */
-const { Strategy } = require('./DB/Passport/Passport');
+require('./DB/Passport/Passport');
 const { Router } = require('./routers/main_routers');
 const { API } = require('./routers/APIs');
 const { BD_Mensajes } = require('./DB/DAOs/Mensajes.daos');

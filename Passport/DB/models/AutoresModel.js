@@ -11,7 +11,8 @@ const AuthorSchema = new mongoose.Schema({
     nickname: String,
     avatar: String,
     password: String,
-    Timestamp: String
+    Timestamp: String,
+    linked_account: String
 });
 
 const AuthorModel = mongoose.model('Autores', AuthorSchema);

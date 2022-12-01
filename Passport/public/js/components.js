@@ -1,12 +1,21 @@
 /*===========================COMPONENTES DEL CHAT========================*/
 window.onload = async() => {
     if(await checkLoginAlive()){
-        const temp = Object.fromEntries(document.cookie.split(/; */).map(c => {
-            const [ key, ...v ] = c.split('=');
-            return [ key, decodeURIComponent(v.join('=')) ];
-        }));
-        author = JSON.parse(temp.data_user.substr(2,temp.data_user.length))
-        Login();
+        try{
+            const CookieUser = Object.fromEntries(document.cookie.split(/; */).map(c => {
+                const [ key, ...v ] = c.split('=');
+                return [ key, decodeURIComponent(v.join('=')) ];
+            }));
+            author = JSON.parse(CookieUser.data_user.substr(2,CookieUser.data_user.length))
+            Login();
+        }catch{
+            alert("Se generó un problema al cargar tu perfil, por favor inicia sesión nuevamente más tarde");
+            sessionStorage.clear();
+            await fetch('/logout', {
+                method: 'GET',
+            });
+            reloadPage()
+        }
     }else{
         document.getElementById('username_login').addEventListener('keypress', (event) => {
             if(event.key === "Enter"){

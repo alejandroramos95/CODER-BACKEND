@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const findOrCreate = require ('mongoose-findorcreate');
 
-const TwitterAuthorSchema = new mongoose.Schema({
+const GitHubAuthorSchema = new mongoose.Schema({
     _id: Number,
     email: {
         type:String
@@ -16,8 +16,8 @@ const TwitterAuthorSchema = new mongoose.Schema({
     linked_account: String
 });
 
-TwitterAuthorSchema.plugin(findOrCreate);
+GitHubAuthorSchema.plugin(findOrCreate);
 
-const TwitterAuthorModel = mongoose.model('Twitter_Autores', TwitterAuthorSchema);
+const GitHubAuthorModel = mongoose.model('GitHub_Autores', GitHubAuthorSchema);
 
-module.exports = { TwitterAuthorModel }
+module.exports = { GitHubAuthorModel }

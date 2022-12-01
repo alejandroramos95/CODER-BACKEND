@@ -1,7 +1,7 @@
 {
   "name": "clase_12",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -24,6 +24,7 @@
     "mongoose-findorcreate": "^3.0.0",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
+    "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "socket.io": "^4.5.2",
