@@ -53,7 +53,7 @@ class Autores_GitHub{
         try{
             this.mongodb(this.url);
             const doc = await GitHubAuthorModel.findById(id).lean();
-            if(doc.email){return false;}
+            if(doc.email && doc.password){return false;}
             return true;
         }catch(err){
             console.log(err);

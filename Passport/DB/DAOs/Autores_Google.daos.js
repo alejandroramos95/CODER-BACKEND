@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { TwitterAuthorModel } = require("../models/TwitterModel");
+const { GoogleAuthorModel } = require("../models/GoogleModel");
 
-class Autores_Twitter{
+class Autores_Google{
 
     /**
      * It connects to the database.
@@ -18,7 +18,7 @@ class Autores_Twitter{
     async getAll(){
         try{
             await this.mongodb(this.url);
-            const data = await TwitterAuthorModel.find().lean();
+            const data = await GoogleAuthorModel.find().lean();
             return data;
         }catch(err){
             console.log(err);
@@ -35,7 +35,7 @@ class Autores_Twitter{
     async getById(id){
         try{
             await this.mongodb(this.url);
-            const doc = await TwitterAuthorModel.findById(id).lean();
+            const doc = await GoogleAuthorModel.findById(id).lean();
             if(doc==null){return false;}
             return doc;
         }catch(err){
@@ -44,11 +44,16 @@ class Autores_Twitter{
         }
     }
 
+    /**
+     * If the user has an email, then they are not a new user, otherwise they are a new user.
+     * @param id - The id of the user
+     * @returns A boolean value.
+     */
     async isNewUser(id){
         try{
             this.mongodb(this.url);
-            const doc = await TwitterAuthorModel.findById(id).lean();
-            if(doc.email && doc.password){return false;}
+            const doc = await GoogleAuthorModel.findById(id).lean();
+            if(doc.password){return false;}
             return true;
         }catch(err){
             console.log(err);
@@ -56,9 +61,9 @@ class Autores_Twitter{
         }
     }
 
-    async checkEmail(email){
+    async checkEmail(email, id){
         await this.mongodb(this.url);
-        const doc = await TwitterAuthorModel.findOne({email: email})
+        const doc = await GoogleAuthorModel.findOne({email: email, _id: {$ne: id}});
         if(doc==null){return true}
         else{return false};
     }
@@ -70,9 +75,8 @@ class Autores_Twitter{
     async completeDatauser(data){
         try{
             this.mongodb(this.url);
-            if(await this.checkEmail(data.email)){
-                const user = await TwitterAuthorModel.findOne({_id: data.id});
-                user.email = data.email;
+            if(await this.checkEmail(data.email, data.id)){
+                const user = await GoogleAuthorModel.findOne({_id: data.id});
                 user.name = data.name;
                 user.last_name = data.last_name;
                 user.age = data.age;
@@ -101,22 +105,8 @@ class Autores_Twitter{
     async deleteByID(id) {
         try{
             await this.mongodb(this.url);
-            await TwitterAuthorModel.findByIdAndDelete(id);
+            await GoogleAuthorModel.findByIdAndDelete(id);
             return true;
-        }catch(err){
-            console.log(err);
-            return false;
-        }
-    }
-
-    async login(credentials){
-        try{
-            const username = credentials.username;
-            await this.mongodb(this.url);
-            const doc = await TwitterAuthorModel.findOne({nickname: username}).lean();
-            if(doc==null){return {status: false}}
-            if(doc.password != credentials.password){return {status: false}}
-            return {status: true, ID: doc._id};
         }catch(err){
             console.log(err);
             return false;
@@ -133,6 +123,6 @@ class Autores_Twitter{
     }
 }
 
-const BD_Autores_Twitter = new Autores_Twitter();
+const BD_Autores_Google = new Autores_Google();
 
-module.exports = { BD_Autores_Twitter };
+module.exports = { BD_Autores_Google };

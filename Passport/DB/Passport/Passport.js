@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const LocalStrategy = require("passport-local").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { AuthorModel } = require("../models/AutoresModel");
 const { TwitterAuthorModel } = require('../models/TwitterModel');
 const { GitHubAuthorModel } = require('../models/GitHubModel');
+const { GoogleAuthorModel } = require('../models/GoogleModel');
 
 Passport.use('login', 
 	new LocalStrategy(
@@ -108,6 +110,26 @@ Passport.use(new GitHubStrategy({
 		done(null, user);
 	});
 }));
+/* GOOGLE STRATEGY */
+Passport.use(new GoogleStrategy({
+	clientID: process.env.GOOGLE_CLIENT_ID,
+	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+	callbackURL: process.env.GOOGLE_CALLBACK_URL
+}, function(accessToken, refreshToken, profile, done){
+	mongoose.connect(process.env.MONGODB_URI);
+	GoogleAuthorModel.findOrCreate({
+		_id: profile._json.sub, 
+		avatar: profile._json.picture, 
+		nickname: profile._json.login,
+		name: profile._json.given_name,
+		last_name: profile._json.family_name,
+		linked_account: "Google",
+		email: profile._json.email,
+	}, function(err, user){
+		if(err){return done(err)}
+		done(null, user);
+	});
+}));
 /* SERIALIZE AND DESERIALIZE */
 Passport.serializeUser((user, done) =>{
 	done(null, {id: user._id, linked_account: user.linked_account});
@@ -118,6 +140,8 @@ Passport.deserializeUser((user_data, done) =>{
 		TwitterAuthorModel.findById(user_data.id, done);
 	}else if(user_data.linked_account === 'GitHub'){
 		GitHubAuthorModel.findById(user_data.id, done);
+	}else if(user_data.linked_account === 'Google'){
+		GoogleAuthorModel.findById(user_data.id, done);
 	}else{
 		AuthorModel.findById(user_data.id, done);
 	}

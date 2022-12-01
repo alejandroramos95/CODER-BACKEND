@@ -5,6 +5,7 @@ const {BD_Productos} = require('../DB/DAOs/Productos.Faker');
 const { BD_Autores } = require('../DB/DAOs/Autores.daos')
 const { BD_Autores_Twitter } = require('../DB/DAOs/Autores_Twitter.daos')
 const { BD_Autores_GitHub } = require('../DB/DAOs/Autores_GitHub.daos')
+const { BD_Autores_Google } = require('../DB/DAOs/Autores_Google.daos');
 /* MIDDLEWARES */
 Router.use(express.json());
 
@@ -26,10 +27,14 @@ function checkAuthentication(req, res, next){
 }
 
 async function formComplete(req, res, next){
-    const Autor = req.session.passport.user.linked_account==="Twitter" 
-        ? await BD_Autores_Twitter.getById(req.session.passport.user.id)
-        : await BD_Autores_GitHub.getById(req.session.passport.user.id);
-    if(Autor.email){
+    let Autor;
+    if(req.session.passport.user.linked_account==="Twitter")
+        Autor = await BD_Autores_Twitter.getById(req.session.passport.user.id);
+    else if(req.session.passport.user.linked_account==="GitHub")
+        Autor = await BD_Autores_GitHub.getById(req.session.passport.user.id);
+    else if(req.session.passport.user.linked_account==="Google")
+        Autor = await BD_Autores_Google.getById(req.session.passport.user.id);
+    if(Autor.email && Autor.password){
         res.redirect('/');
     }else{
         next();
@@ -41,12 +46,17 @@ async function checkLinkedAccount(user){
         return await BD_Autores_Twitter.isNewUser(user.id);
     else if(user.linked_account==="GitHub")
         return await BD_Autores_GitHub.isNewUser(user.id);
+    else if(user.linked_account==="Google")
+        return await BD_Autores_Google.isNewUser(user.id);
 }
 
 async function getDataUser(user){
-    return user.linked_account==="Twitter" 
-        ? await BD_Autores_Twitter.getById(user.id)
-        : await BD_Autores_GitHub.getById(user.id);
+    if(user.linked_account==="Twitter")
+        return await BD_Autores_Twitter.getById(user.id)
+    else if(user.linked_account==="GitHub")
+        return await BD_Autores_GitHub.getById(user.id);
+    else if(user.linked_account==="Google")
+        return await BD_Autores_Google.getById(user.id);
 }
 
 async function createCookie(user){
@@ -55,6 +65,8 @@ async function createCookie(user){
         data_user = await BD_Autores_Twitter.getById(user.id);
     }else if(user.linked_account==="GitHub"){
         data_user = await BD_Autores_GitHub.getById(user.id);
+    }else if(user.linked_account==="Google"){
+        data_user = await BD_Autores_Google.getById(user.id);
     }else{
         data_user = await BD_Autores.getById(user.id);
     }
@@ -64,6 +76,15 @@ async function createCookie(user){
     delete data_user.Timestamp;
     delete data_user.linked_account;
     return data_user;
+}
+
+async function sendFromData(data_user){
+    if(data_user.linked_account==="Twitter")
+        await BD_Autores_Twitter.completeDatauser(data_user);
+    else if(data_user.linked_account==="GitHub")
+        await BD_Autores_GitHub.completeDatauser(data_user);
+    else if(data_user.linked_account==="Google")
+        await BD_Autores_Google.completeDatauser(data_user);
 }
 
 /* ROUTERS */
@@ -89,9 +110,8 @@ Router.get('/auth/twitter/registration', checkAuthentication, formComplete, asyn
 
 Router.post('/auth/twitter/registration', checkAuthentication, async(req, res) => {
     req.body.id = req.session.passport.user.id;
-    req.session.passport.user.linked_account === "Twitter" 
-        ? await BD_Autores_Twitter.completeDatauser(req.body)
-        : await BD_Autores_GitHub.completeDatauser(req.body);
+    req.body.linked_account = req.session.passport.user.linked_account;
+    await sendFromData(req.body);
     res.redirect('/');
 });
 //======================
@@ -126,6 +146,15 @@ Router.get('/auth/twitter/login', checkUnAutentication, Passport.authenticate('t
 Router.get('/auth/GitHub', checkUnAutentication, Passport.authenticate('github'));
 
 Router.get('/auth/GitHub/login', checkUnAutentication, Passport.authenticate('github',{
+    successRedirect: '/',
+    failureRedirect: '/fail_login'
+}));
+/* GOOGLE */
+Router.get('/auth/Google', checkUnAutentication, Passport.authenticate('google',{
+    scope: ['profile', 'email'], //ES NECESARIO PARA QUE FUNCIONE
+}));
+
+Router.get('/auth/Google/login', checkUnAutentication, Passport.authenticate('google',{
     successRedirect: '/',
     failureRedirect: '/fail_login'
 }));
