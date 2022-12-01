@@ -12,7 +12,7 @@ const { Server: HttpServer } = require("http");
 const Handlebars = require("handlebars");
 const MongoStore = require('connect-mongo');
 /* IMPORTACIONES LOCALES */
-require('./DB/Passport/Passport');
+require('./DB/Passport_Strategies/Passport.js');
 const { Router } = require('./routers/main_routers');
 const { API } = require('./routers/APIs');
 const { BD_Mensajes } = require('./DB/DAOs/Mensajes.daos');
