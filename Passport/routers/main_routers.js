@@ -109,10 +109,15 @@ Router.get('/auth/twitter/registration', checkAuthentication, formComplete, asyn
 });
 
 Router.post('/auth/twitter/registration', checkAuthentication, async(req, res) => {
-    req.body.id = req.session.passport.user.id;
-    req.body.linked_account = req.session.passport.user.linked_account;
-    await sendFromData(req.body);
-    res.redirect('/');
+    if(await BD_Autores.checkEmail(req.body.email)){
+        req.body.id = req.session.passport.user.id;
+        req.body.linked_account = req.session.passport.user.linked_account;
+        await sendFromData(req.body);
+        res.redirect('/');
+    }else{
+        res.redirect('/fail_register');
+    }
+    
 });
 //======================
 //FAILS
