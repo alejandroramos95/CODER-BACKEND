@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const AuthorSchema = new mongoose.Schema({
+const AuthorLocalSchema = new mongoose.Schema({
     email: {
         type:String, 
         required:true
@@ -15,6 +15,6 @@ const AuthorSchema = new mongoose.Schema({
     linked_account: String
 });
 
-const AuthorModel = mongoose.model('Autores', AuthorSchema);
+const Author_Local_Model = mongoose.model('Local_Autores', AuthorLocalSchema);
 
-module.exports = { AuthorModel }
+module.exports = { Author_Local_Model }

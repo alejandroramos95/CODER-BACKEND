@@ -4,7 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const { AuthorModel } = require("../models/AutoresModel");
+const { Author_Local_Model } = require("../models/Autores_Local_Model");
 const { TwitterAuthorModel } = require('../models/TwitterModel');
 const { GitHubAuthorModel } = require('../models/GitHubModel');
 const { GoogleAuthorModel } = require('../models/GoogleModel');
@@ -14,7 +14,7 @@ Passport.use('login',
 		(username, password, done) => {
 			console.log(username + '<--DATOS-->' + password);
 			mongoose.connect(process.env.MONGODB_URI);
-			AuthorModel.findOne({nickname: username}, (err, user) => {
+			Author_Local_Model.findOne({nickname: username}, (err, user) => {
 				if(err)return done(err);
 				if(!user){
 					console.log('Usuario no encontrado '+username);
@@ -33,7 +33,7 @@ Passport.use('signup', new LocalStrategy({
 	passReqToCallback: true
 }, (req, username, password, done) => {
 	mongoose.connect(process.env.MONGODB_URI);
-	AuthorModel.findOne({email: req.body.email}, (error, mail) => {
+	Author_Local_Model.findOne({email: req.body.email}, (error, mail) => {
 		if(error){
 			console.log('Error con el registro '+error);
 			return done(err);
@@ -41,7 +41,7 @@ Passport.use('signup', new LocalStrategy({
 			console.log('Email ya registrado');
 			return done(null, false);
 		}
-		AuthorModel.findOne({nickname: username}, (err, user) => {
+		Author_Local_Model.findOne({nickname: username}, (err, user) => {
 		if(err){
 			console.log('Error con el registro '+err);
 			return done(err);
@@ -59,7 +59,7 @@ Passport.use('signup', new LocalStrategy({
             avatar: req.body.avatar,
 			linked_account: "local"
 		};
-		AuthorModel.create(newUser, (err, userWithID)=>{
+		Author_Local_Model.create(newUser, (err, userWithID)=>{
 			if(err){
 				console.log('Error al guardar el usuario: '+err);
 				return done(err);
@@ -117,18 +117,24 @@ Passport.use(new GoogleStrategy({
 	callbackURL: process.env.GOOGLE_CALLBACK_URL
 }, function(accessToken, refreshToken, profile, done){
 	mongoose.connect(process.env.MONGODB_URI);
-	/* SE TIENE QUE BUSCAR SOLO POR ID */
-	GoogleAuthorModel.findOrCreate({
-		_id: profile._json.sub, 
-		avatar: profile._json.picture, 
-		nickname: profile._json.login,
-		name: profile._json.given_name,
-		last_name: profile._json.family_name,
-		linked_account: "Google",
-		email: profile._json.email,
-	}, function(err, user){
+	GoogleAuthorModel.findById({_id:profile._json.sub}, (err, user)=>{
 		if(err){return done(err)}
-		done(null, user);
+		if(user){
+			return done(null, user);
+		}else{
+			GoogleAuthorModel.create({
+				_id: profile._json.sub,
+				avatar: profile._json.picture,
+				nickname: profile._json.name,
+				name: profile._json.given_name,
+				last_name: profile._json.family_name,
+				email: profile._json.email,
+				linked_account: "Google",
+			}, (err, user)=>{
+				if(err){return done(err)}
+				done(null, user);
+			});
+		}
 	});
 }));
 /* SERIALIZE AND DESERIALIZE */
@@ -144,6 +150,6 @@ Passport.deserializeUser((user_data, done) =>{
 	}else if(user_data.linked_account === 'Google'){
 		GoogleAuthorModel.findById(user_data.id, done);
 	}else{
-		AuthorModel.findById(user_data.id, done);
+		Author_Local_Model.findById(user_data.id, done);
 	}
 });
