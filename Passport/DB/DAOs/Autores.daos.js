@@ -44,27 +44,21 @@ class Autores{
         }
     }
 
+    /**
+     * It checks if the email is already in use by a user in the database.
+     * @param email - email
+     * @returns A boolean value.
+     */
     async checkEmail(email){
         try{
             this.mongodb(this.url);
-            const doc = [];
-            await Author_Local_Model.findOne({email: email}).then((docs)=>{
-                docs.forEach((element)=>{
-                    doc.push(element);
-                })
-            });
-            await TwitterAuthorModel.findOne({email: email}).then((docs)=>{
-                docs.forEach((element)=>{
-                    doc.push(element);
-                })
-            });
-            await GitHubAuthorModel.findOne({email: email}).then((docs)=>{
-                docs.forEach((element)=>{
-                    doc.push(element);
-                })
-            })
-            if(doc==null){return true}
-            else{return false};
+            if(
+                await Author_Local_Model.findOne({email: email}).lean() == null && 
+                await GitHubAuthorModel.findOne({email: email}).lean() == null && 
+                await TwitterAuthorModel.findOne({email: email}).lean() == null
+            )
+                return true;
+            return false;
         }catch(err){
             console.log(err);
             return false;

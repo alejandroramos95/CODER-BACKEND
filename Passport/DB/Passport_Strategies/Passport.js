@@ -8,6 +8,7 @@ const { Author_Local_Model } = require("../models/Autores_Local_Model");
 const { TwitterAuthorModel } = require('../models/TwitterModel');
 const { GitHubAuthorModel } = require('../models/GitHubModel');
 const { GoogleAuthorModel } = require('../models/GoogleModel');
+const { BD_Autores } = require('../DAOs/Autores.daos');
 
 Passport.use('login', 
 	new LocalStrategy(
@@ -117,23 +118,27 @@ Passport.use(new GoogleStrategy({
 	callbackURL: process.env.GOOGLE_CALLBACK_URL
 }, function(accessToken, refreshToken, profile, done){
 	mongoose.connect(process.env.MONGODB_URI);
-	GoogleAuthorModel.findById({_id:profile._json.sub}, (err, user)=>{
+	GoogleAuthorModel.findById({_id:profile._json.sub}, async(err, user)=>{
 		if(err){return done(err)}
 		if(user){
 			return done(null, user);
 		}else{
-			GoogleAuthorModel.create({
-				_id: profile._json.sub,
-				avatar: profile._json.picture,
-				nickname: profile._json.name,
-				name: profile._json.given_name,
-				last_name: profile._json.family_name,
-				email: profile._json.email,
-				linked_account: "Google",
-			}, (err, user)=>{
-				if(err){return done(err)}
-				done(null, user);
-			});
+			if(await BD_Autores.checkEmail(profile._json.email)){
+				GoogleAuthorModel.create({
+					_id: profile._json.sub,
+					avatar: profile._json.picture,
+					nickname: profile._json.name,
+					name: profile._json.given_name,
+					last_name: profile._json.family_name,
+					email: profile._json.email,
+					linked_account: "Google",
+				}, (err, user)=>{
+					if(err){return done(err)}
+					done(null, user);
+				});
+			}else{
+				return done(null, false);
+			}
 		}
 	});
 }));
