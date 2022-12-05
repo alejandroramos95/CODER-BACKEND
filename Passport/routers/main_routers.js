@@ -1,8 +1,9 @@
 const express = require('express');
 const Router = express.Router();
 const Passport = require('passport');
-const {BD_Productos} = require('../DB/DAOs/Productos.Faker');
-const { BD_Autores } = require('../DB/DAOs/Autores.daos')
+const { BD_Productos } = require('../DB/DAOs/Productos.Faker');
+const { BD_Autores } = require('../DB/DAOs/Autores.daos');
+const { BD_Autores_Local } = require('../DB/DAOs/Autores_Local.daos');
 const { BD_Autores_Twitter } = require('../DB/DAOs/Autores_Twitter.daos')
 const { BD_Autores_GitHub } = require('../DB/DAOs/Autores_GitHub.daos')
 const { BD_Autores_Google } = require('../DB/DAOs/Autores_Google.daos');
@@ -68,7 +69,7 @@ async function createCookie(user){
     }else if(user.linked_account==="Google"){
         data_user = await BD_Autores_Google.getById(user.id);
     }else{
-        data_user = await BD_Autores.getById(user.id);
+        data_user = await BD_Autores_Local.getById(user.id);
     }
     delete data_user._id;
     delete data_user.__v;
