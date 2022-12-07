@@ -114,6 +114,6 @@ class Autores{
     }
 }
 
-const BD_Autores = new Autores();
+const BD_Autores_Local = new Autores();
 
-module.exports = { BD_Autores };
+module.exports = { BD_Autores_Local };
