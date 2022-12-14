@@ -2,50 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const path=require('path');
 const products = express.Router();
-
+const Productos = require('../api/products.js');
 let oneStepBack=path.join(__dirname,'../');
-
-class Productos {
-    productos = [];
-
-    getAll(){
-        return this.productos;
-    }
-
-    setProduct(body){
-        let status= -1;
-        try{
-            let id_count = 0;
-            if(this.productos.length > 0) {
-                id_count = parseInt(this.productos[this.productos.length-1].id);//TRAE EL ID DEL OBJETO EN EL ULTIMO ELEMENTO DEL ARRAY
-                id_count++;
-            }
-            if(this.validateBody(body)){
-                let temp = body;
-                temp["id"] = id_count;
-                this.productos.push(temp);
-            }else{
-                throw new Error();
-            }
-            return status = 1;
-        }catch{
-            return status;
-        }
-    }
-
-    validateBody(body){
-        let status = false;
-        try{
-            if(!body.tittle){throw new Error("Falta un elemento en el valor de una llave en el objeto")};
-            if(!body.price){throw new Error("Falta un elemento en el valor de una llave en el objeto")};
-            if(!body.thumbnail){throw new Error("Falta un elemento en el valor de una llave en el objeto")};
-            return status = true;
-        }catch(e){
-            console.log(e);
-            return status;
-        }
-    };
-};
 
 /* CONFIG STORAGE */
 
@@ -84,6 +42,16 @@ products.post('/productos', upload.single("thumbnail"), (request, res, next) => 
     index != -1
         ? res.render("products-list", {datos, index, method})
         : res.render("products-list", {datos, index, method});
+});
+
+products.delete('/api/productos/:id', (request, res) => {
+    console.log("CONSULTA DELETE");
+    const index = elements.delete(parseInt(request.params.id));
+    const datos = elements.getAll();
+    const method = request.method;
+    index != -1
+        ? res.render("products-list", {datos, index, method})
+        :res.render("products-list", {datos, index, method});
 });
 
 const elements = new Productos();
