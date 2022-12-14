@@ -13,7 +13,7 @@ Después de inciar el servidor Forker iniciaremos los Clusters con los sigueinte
 - Para la ruta info:<br>
 <code>pm2 start server.js --name="ServerClusterInfo" -i 1 --watch -- -p 8081</code>
 - Para la ruta api/random:<br>
-<code>pm2 start server.js --name="ServerClusterRandom" -i 1 --watch -- -p 8082</code>
-<code>pm2 start server.js --name="ServerClusterRandom1" -i 1 --watch -- -p 8083</code>
-<code>pm2 start server.js --name="ServerClusterRandom2" -i 1 --watch -- -p 8084</code>
-<code>pm2 start server.js --name="ServerClusterRandom3" -i 1 --watch -- -p 8085</code>
+<code>pm2 start server.js --name="ServerClusterRandom" -i 1 --watch -- -p 8082</code><br>
+<code>pm2 start server.js --name="ServerClusterRandom1" -i 1 --watch -- -p 8083</code><br>
+<code>pm2 start server.js --name="ServerClusterRandom2" -i 1 --watch -- -p 8084</code><br>
+<code>pm2 start server.js --name="ServerClusterRandom3" -i 1 --watch -- -p 8085</code><br>
