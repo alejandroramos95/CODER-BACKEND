@@ -8,7 +8,8 @@
 }
 
 .padding {
-    display: flex; justify-content: center;
+    display: flex; 
+    justify-content: center;
 }
 
 .card-header .card-title {
@@ -110,15 +111,17 @@ h4.card-title {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: reverse;
     flex-direction: row-reverse;
-    padding-left: 27cm;
+    width: 34cm;
+    min-height: 136px;
+    display: inline-flex;
 }
 
 .media-chat.media-chat-reverse .media-body p {
     float: right;
     clear: right;
     background-color: #48b0f7;
-    width: 5cm;
     color: rgb(0, 0, 0);
+    max-width: 20cm;
 }
 
 /* MENSAJES QUE RECIBE */
@@ -149,9 +152,9 @@ h4.card-title {
     opacity: .8;
 }
 
-.media-chat {
-    padding-right: 64px;
-    margin-bottom: 0;
+.media-chat-reverse .media-body p.meta {
+    text-align: end;
+    opacity: .8;
 }
 
 .media-chat .media-body p {
@@ -160,6 +163,7 @@ h4.card-title {
     margin: 4px 0;
     background-color: #32e21bd5;
     border-radius: 3px;
+    max-width: 20cm;
 }
 
 /* LOADING */
