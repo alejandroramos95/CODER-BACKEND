@@ -1,5 +1,14 @@
 /*===========================COMPONENTES DEL CHAT========================*/
 window.onload = async() => {
+    if(window.location.hostname==='chat-coderhouse-jmm.onrender.com'){
+        const button = document.getElementById('google_button');
+        button.addEventListener('click', () => {
+            alert('No se puede iniciar sesión con Google mientras la API se encuentre en la versión de prueba');
+        })
+    }else{
+        const button = document.getElementById('google_button');
+        button.href='auth/Google';
+    }
     if(await checkLoginAlive()){
         try{
             const CookieUser = Object.fromEntries(document.cookie.split(/; */).map(c => {

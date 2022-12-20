@@ -187,3 +187,7 @@ width: 20px;
     height: 50px;
     border-radius: 5px;
 }
+
+#google_button {
+    cursor: pointer;
+}
