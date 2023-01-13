@@ -20,4 +20,4 @@ const logger = pino({
 	level: 'warn',
 }, pino.multistream(streams, opts));
 
-module.exports = {logger};
+module.exports = { logger };

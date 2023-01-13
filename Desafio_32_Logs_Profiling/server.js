@@ -13,7 +13,7 @@ const yargs = require('yargs');
 const pino = require('pino');
 /* IMPORTACIONES LOCALES */
 const { Strategy } = require('./DB/Passport/Passport');
-const { Router } = require('./routers/main_routers');
+const { Router } = require('./routers/USER_Router');
 const { API } = require('./routers/APIs');
 const { logger } = require('./Pino/pino');
 /* CREACION DE COMANDOS */
