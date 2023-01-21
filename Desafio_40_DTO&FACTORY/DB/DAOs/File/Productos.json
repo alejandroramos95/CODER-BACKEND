@@ -1,0 +1,14 @@
+[
+	{
+		"_id": 0,
+		"title": "Inca-Kola",
+		"price": "1.5",
+		"thumbnail": "https://www.smartsystem.pe/wp-content/uploads/2020/04/inka-cola-500ml-1.jpg"
+	},
+	{
+		"title": "Oreo",
+		"price": "0.50",
+		"thumbnail": "https://awayo.pe/wp-content/uploads/2021/02/Oreo-36-Web.jpg",
+		"_id": 1
+	}
+]
