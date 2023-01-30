@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Mi Aplicación con Sockets</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/req_server.js"></script>
+    <script src="js/components.js"></script>
+    <link rel="stylesheet" href="css/style.css"></link>
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/chat.css">
+  </head>
+
+  <body style="background-color: black;">
+    
+    <h2 style="text-align: center; margin-top: 2cm; color: white;">Ingrese un producto para añadir</h2>
+    <div class="row justify-content-center" style="background-color: rgb(83, 80, 80); border-radius: 30px; margin: 1cm;">
+      <form id="Form" style="margin: 1cm;">
+        <div class="mb-3">
+          <label for="tittle" class="form-label" style="color: white;">Título del producto</label>
+          <input type="text" placeholder="Título de ejemplo" class="form-control" id="tittle" required>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label" style="color: white;">Precio</label>
+          <input type="number" placeholder="151.2" min="0.1" step="any"class="form-control" id="price" required>
+        </div>
+        <div class="mb-3">
+          <label for="link-url" class="form-label" style="color: white;">URL</label>
+          <input type="url" placeholder="https://ejemplo.png" class="form-control" id="thumbnail" required>
+        </div>
+        <div class="col text-center" style="margin-top: 2.5rem; margin-bottom: 3rem;">
+          <button type="submit" onclick="addProduct()" class="btn btn-outline-success" style="align-self: center;">Listar Productos</button>
+        </div>
+      </form>
+    </div>
+      
+    <div id="container"></div>
+
+    <div class="page-content page-container" id="page-content">
+      <div class="tittle_chat">
+        <h1>Centro de mensajes</h1>
+        <h4 class="text_user" style="display: none;" id="text_user">Bienvenido Usuario</h4>
+      </div>
+      <div class="padding">
+        <div class="row container d-flex justify-content-center">
+          <div class="chat-container">
+            <div class="card card-bordered" style="position: relative;">
+                <div class="login-wrap" id="form-warp">
+                  <div class="close" id="close"></div>
+                  <div class="login-html" id="login-html">
+                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Iniciar sesión</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Registro</label>
+                      <div class="login-form">
+                        {{!-- REGISTRO --}}
+                        <form class="sign-up-htm" action="api/register" method="POST" id="signup_form" onsubmit="event.preventDefault()">
+                          <div class="group">
+                            <label for="email" class="label" id="email_label">Email</label>
+                            <input id="email" name="email" type="text" class="input">
+                          </div>
+                          <div class="group">
+                            <label for="name" class="label" id="name_label">Nombre</label>
+                            <input id="name" name="name" type="text" class="input">
+                          </div>
+                          <div class="group">
+                            <label for="last_name" class="label" id="last_name_label">Apellido</label>
+                            <input id="last_name" name="last_name" type="text" class="input">
+                          </div>
+                          <div class="group">
+                            <label for="age" class="label" id="age_label">Edad</label>
+                            <input id="age" name="age" type="number" min="10" max="100" class="input">
+                          </div>
+                          <div class="group">
+                            <label for="nickname" class="label" id="nickname_label">Nombre de usuario</label>
+                            <input id="nickname" name="username" type="text" class="input">
+                          </div>
+                          <div class="group">
+                            <label for="password" class="label" id="password_label">Contraseña</label>
+                            <input id="password" name="password" type="password" class="input">
+                          </div>
+                          <div class="group">
+                            <label for="avatar" class="label" id="avatar_label">Imagen de perfil</label>
+                            <input id="avatar" name="avatar" type="url" class="input">
+                          </div>
+                          <div class="group">
+                            <input type="submit" class="button" value="Registrarse" id="btn-register">
+                          </div>
+                        </form>
+                        {{!-- INICIAR SESIÓN --}}
+                        <form class="sign-in-htm" id="login_form" method="POST" action="login" onsubmit="event.preventDefault()">
+                          <div class="group">
+                            <label for="username_login" class="label" id="username_login_label">Email</label>
+                            <input type="text" class="input" name="username" id="username_login">
+                          </div>
+                          <div class="group" style="margin-bottom: 50px;">
+                            <label for="password_login" class="label">Contraseña</label>
+                            <input id="password_login" type="password" name="password" class="input" data-type="password">
+                          </div>
+                          <div class="group">
+                            <input type="submit" class="button" id="btn-login" value="Iniciar Sesión">
+                          </div>
+                          <div class="hr"></div>
+                          <div class="foot-lnk">
+                            <label for="tab-2" class="register_label">¿No tienes cuenta?</label>
+                          </div>
+                        </form>
+                      </div>
+                  </div>
+                </div>
+              <div class="card-header">
+                <h4 class="card-title"><strong>Chat</strong></h4>
+                <a class="btn btn-xs btn-secondary" id="enable-form" data-abc="true">Empecemos a chatear</a>
+                <a class="btn btn-xs btn-secondary" href="logout" id="logout" data-abc="true" style="display: none;">Cerrar sesión</a>
+              </div>
+
+              <div class="ps-container ps-theme-default ps-active-y" id="chat-content">
+                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                  <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+                  <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+                </div>
+              </div>
+
+              <div class="publisher bt-1 border-light" id="uchat">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="Image" id="user-img">
+                <input class="publisher-input" id="send-message" type="text" placeholder="Primero debes iniciar sesión o registrarte..." disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex;margin-left: 5%;justify-content: space-evenly;margin-bottom: 20px;" id="content-flex">
+        <a href="/info"><button type="button" class="btn btn-info">Info</button></a>
+      </div>
+    </div>
+  </body>
+</html>

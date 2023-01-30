@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <title>Sys Information</title>
+</head>
+<body>
+    <style>
+        body {
+            position: relative;
+            background-color: black;
+        }
+        .panel-title {
+            cursor:pointer;
+        }
+        h4.tab-title
+        {
+            font-family: "avenirheavy", Helvetica, Arial, "sans-serif";
+            font-weight: normal;
+            font-size: 22px;
+            color: #ffffff;
+        }
+        .vertab-content ul, .vertab-content ol {
+            padding-left: 15px;
+        }
+        code {
+            background-color: rgb(56, 56, 56);
+            color: white;
+        }
+        button {
+            margin-left: 50%;
+        }
+        .container {
+            position: absolute; 
+            top: 50%; 
+            left:50%; 
+            margin: 10% 0 0 -30%;
+        }
+        #accordion{
+            margin: 0;
+            max-height: 357.5px !important;
+        }
+        @media (min-width:768px) {
+            .vertab-container {
+                z-index: 10;
+                background-color: #7952b3;
+                padding: 0 !important;
+                border: 1px solid #ddd;
+                margin-top: 20px;
+                background-clip: padding-box;
+                opacity: 0.97;
+                filter: alpha(opacity=97);
+                overflow: auto;
+                margin-bottom: 50px;
+            }
+            .vertab-menu {
+                padding-right: 0;
+                padding-left: 0;
+                padding-bottom: 0;
+                display: block;
+                background-color: #e3e3e3;
+            }
+            .vertab-menu .list-group {
+                margin-bottom: 0;
+            }
+            .vertab-menu .list-group>a {
+                margin-bottom: 0;
+                border-radius: 0;
+            }
+            .vertab-menu .list-group>a, .vertab-menu .list-group>a {
+                color: #818181;
+                background-image: none;
+                background-color: #F6F6F6;
+                border-radius: 0;
+                box-sizing: border-box;
+                border: none;
+                border-bottom: 1px solid #CACACA;
+                padding: 15px 10px;
+            }
+            .vertab-menu .list-group>a.active, .vertab-menu .list-group>a:hover, .vertab-menu .list-group>a:focus {
+                position: relative;
+                border: none;
+                border-radius: 0;
+                border-bottom: 1px solid #CACACA;
+                border-left: 5px solid #7952b3;
+                padding-left: 5px;
+                background-image: none;
+                background-color: #F6F6F6;
+                color: #7952b3;
+            }
+            .vertab-content {
+                padding-left: 20px;
+                padding-top: 10px;
+                color: #FFFFFF;
+            }
+            .vertab-accordion .vertab-content:not(.active) {
+                display: none;
+            }
+            .vertab-accordion .vertab-content.active .collapse {
+                display: block;
+            }	
+            .vertab-container .panel-heading {
+                display: none;
+            }
+            .vertab-container .panel-body {
+                border-top: none !important;
+            }
+        }
+
+        /* If the tc_breakpoint variable is changed, this breakpoint should be changed as well */
+        @media (max-width:767px) {
+            .vertab-container {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .vertab-container .vertab-menu {
+                display: none;
+            }
+            .vertab-container .panel-heading {
+                background-color: #F6F6F6;
+                color: #818181;
+                padding: 15px;
+                border-bottom: 1px solid #F6F6F6;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                border-left: 5px solid #F6F6F6;
+            }
+            .vertab-container .panel-heading:hover, .vertab-container .panel-heading:focus, .vertab-container .panel-heading.active {
+                border-left: 5px solid #7952b3;
+                border-bottom: 1px solid #7952b3;
+            }
+            .vertab-content {
+                border-bottom: 1px solid #CACACA;
+            }
+            .vertab-container .panel-title a:focus, .vertab-container .panel-title a:hover, .vertab-container .panel-title a:active {
+                color: #818181;
+                text-decoration: none;
+            }
+            .panel-collapse.collapse, .panel-collapse.collapsing {
+                background-color: #7952b3 !important;
+                color: #ffffff;
+            }
+            .vertab-container .panel-collapse .panel-body {
+                border-top: none !important;
+            }
+        }
+
+    </style>
+
+{{#with data}}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 vertab-container">
+                <div class="col-lg-3 col-md-3 col-sm-3  vertab-menu">
+                    <div class="list-group">
+                        <a class="list-group-item text-left"> PORT </a>
+                        <a class="list-group-item text-left"> OS </a>
+                        <a class="list-group-item text-left"> NODE VERSION </a>
+                        <a class="list-group-item text-left"> RSS </a>
+                        <a class="list-group-item text-left"> PATH </a>
+                        <a class="list-group-item text-left"> PROCESS ID </a>
+                        <a class="list-group-item text-left"> ABSOLUTE PATH</a>
+                    </div>
+                </div>
+                <div id="accordion" class="col-lg-9 col-md-9 col-sm-9 col-xs-12 vertab-accordion panel-group"> 
+                    <div class="vertab-content">
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                
+                                    <h4>¿Puerto?</h4>
+                                    <p>
+                                        Los puertos TCP están disponibles en el rango de 0 a 65535. Los números de puerto hasta 1024 generalmente se conservan para servicios conocidos como FTP (21), SMTP (25), HTTP (80), HTTPS (443). Por lo tanto, generalmente es convencional usar un código de 4 dígitos superior a 1024 para fines de desarrollo para que no interfiera con ninguno de los servicios en ejecución en su máquina de desarrollo / implementación.
+                                    </p><br><br>
+                                    <p><strong>Puerto Actual: {{PORT}}</strong></p>
+                                    <img src="/images/web.png" alt="Image" width="100px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertab-content">
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <h4>¿Sistema Operativo?</h4>
+                                    <p>La propiedad <code>process.platform</code> devuelve una cadena que identifica el funcionamiento en la plataforma del sistema para la que se compiló el binario Node.js.</p><br>
+                                    <p>Los valores posibles actualmente son:</p><br>
+                                    <div style="float: left;">
+                                        <ul>
+                                            <li><code>'aix'</code></li>
+                                            <li><code>'darwin'</code></li>
+                                            <li><code>'freebsd'</code></li>
+                                            <li><code>'linux'</code></li>
+                                            <li><code>'openbsd'</code></li>
+                                            <li><code>'sunos'</code></li>
+                                            <li><code>'win32'</code></li>
+                                        </ul>
+                                    </div>
+                                    <div style="float: right; margin-top: 1cm;">
+                                        <p><strong>Sistema Operativo usado: {{OS}}</strong></p>
+                                        <img src="images/os.png" alt="Image" width="200px">
+                                    </div>    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertab-content">
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <h4>¿Versión de Node.js?</h4><br>
+                                    <p>La propiedad <code>version.process.version</code> contiene la cadena de la versión usada en Node.js.</p>
+                                    <p>Para obtener la cadena de versión sin la <i><u>v</u></i> antepuesta, use <code>process.versions.node</code>.</p>
+                                    <br><br>
+                                    <p><strong>Version de Node: {{NODE_V}}</strong></p>
+                                    <img src="/images/node.png" alt="Image" width="100px">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertab-content">
+                        <div id="collapse4" class="panel-collapse collapse">
+                            <div class="panel-body" style="padding: 0;">
+                                    <h4>¿Resident Set Size?</h4>
+                                    <p>El método <code>process.memoryUsage.rss()</code> devuelve un entero que representa el Tamaño del conjunto residente o Resident Set Size (RSS) en bytes.</p>
+                                    <p>El tamaño del conjunto residente, es la cantidad de espacio ocupado en el dispositivo de memoria (que es un subconjunto de la memoria total asignada) para el, incluidos todos los objetos y código de C++ y JavaScript.</p>
+                                    <p>Este es el mismo valor que la propiedad <code>rss</code> proporcionada por <code>process.memoryUsage()</code> pero <code>process.memoryUsage.rss()</code> es más rápido.</p>
+                                    <p style="margin-top: 17px;"><strong>total reservada: {{MEMORY}} MB</strong></p>
+                                    <img src="/images/memory.png" alt="Image" width="100px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertab-content">
+                        <div id="collapse5" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <h4>¿Path?</h4><br>
+                                    <p>El método <code>process.cwd()</code> devuelve el directorio de trabajo actual del proceso de Node.js.</p>
+                                    <p style="margin-top: 3.1cm;"><strong>Ubicación del proyecto: "{{PATH}}"</strong></p>
+                                    <img src="/images/folder.png" alt="Image" width="100px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertab-content">
+                        <div id="collapse5" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <h4>¿ID de Proceso?</h4>
+                                    <p>La propiedad <code>process.pid</code> devuelve el PID del proceso.</p>
+                                    <h4>¿Qué es PID?</h4>
+                                    <p>El identificador de procesos o process ID (PID) es un número entero usado por el kernel de algunos sistemas operativos para identificar un proceso de forma unívoca.</p><br>
+                                    <p><strong>ID de proceso: {{PROCESS_ID}}</strong></p>
+                                    <img src="/images/process.png" alt="Image" width="100px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertab-content">
+                        <div id="collapse5" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <h4>¿Ubicación Absoluta?</h4><br>
+                                    <p>El método <code>process.argv[1]</code> devuelve la ubicación del archivo donde se esta iniciando el proyecto de Node.js.</p>
+                                    <p>Para escoger el segundo parametro podemos usar <code>process.argv[2]</code> el cúal nos devolverá el parametro que nosotros escribamos por consola y asi sucesivamente.</p><br>
+                                    <p style="margin-top: 1cm;"><strong>Ubicación de ejecución: "{{ABSOLUTE_PATH}}"</strong></p>
+                                    <img src="/images/folder.png" alt="Image" width="100px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="/"><button type="button" class="btn btn-success">Volver</button></a>
+    </div>
+{{/with}}
+    <script>
+        // Screen-width breakpoint
+        var tc_breakpoint = 767;
+
+        jQuery(document).ready(function() 
+        {
+            "use strict";
+            
+            // Switch tabs and update panels classes - Adjust container height
+            jQuery(".vertab-container .vertab-menu .list-group a").click(function(e) 
+            {
+                var index = jQuery(this).index();
+                var container = jQuery(this).parents('.vertab-container');
+                var accordion = container.find('.vertab-accordion');
+                var contents = accordion.find(".vertab-content");
+                
+                e.preventDefault();
+                
+                jQuery(this).addClass("active");
+                jQuery(this).siblings('a.active').removeClass("active");
+                
+                contents.removeClass("active");
+                contents.eq(index).addClass("active");
+                container.data('current',index);
+
+                //Adjust container height
+                jQuery(this).parents('.vertab-menu').css('min-height',jQuery(container).children('.vertab-accordion').height() + 20);
+            });
+            
+            // Collapse accordion panels (except the one the user just opened) and add "active" class to the panel heading 
+            jQuery('.vertab-accordion').on('show.bs.collapse','.collapse', function() 
+            {
+                var accordion, container, current, index;
+                
+                accordion = jQuery(this).parents('.vertab-accordion');
+                container = accordion.parents('.vertab-container');
+                
+                accordion.find('.collapse.in').each(function()
+                {
+                    jQuery(this).collapse('hide');
+                });		
+                
+                jQuery(this).siblings('.panel-heading').addClass('active');
+                
+                current = accordion.find('.panel-heading.active');
+                index = accordion.find('.panel-heading').index(current);
+                
+                container.data('current',index);
+            });
+                                        
+            // Remove "active" class from heading when collapsing the current panel 
+            jQuery('.vertab-accordion .panel-collapse').on('hide.bs.collapse', function () {
+                jQuery(this).siblings('.panel-heading').removeClass('active');
+            });	
+            
+            // Manage resize / rotation events
+            jQuery( window ).on( "resize orientationchange", function(  ) 
+            {
+                resize_vertical_accordions();
+            });
+            
+            // Scroll accordion to show the current panel
+            jQuery(".vertab-accordion .panel-heading").click(function () 
+            {
+                var el = this;
+                setTimeout(function(){jQuery("html, body").animate({scrollTop: jQuery(el).offset().top - 10 }, 1000);},500);
+                
+                return true;
+            });
+            
+            //Initial Panels setup
+            resize_vertical_accordions(  );
+        });
+
+        function resize_vertical_accordions(  ) 
+        {
+            "use strict";
+            jQuery('.vertab-container').each(function(i, e)
+            {
+                var index, menu, contents; 
+                var container = jQuery(this);
+                
+                // Setup current tab/panel (default to first tab/panel)
+                index = jQuery(this).data('current');
+                if(index === undefined)
+                {
+                    jQuery(this).data('index',0);
+                    index = 0;
+                }
+                
+                // If using a desktop-size screen, manage as tabbed panels
+                if( jQuery( window ).width() > tc_breakpoint)
+                {
+                    // Reset panels heights (Bootstrap's accordions sets heights to zero)
+                    jQuery(this).find('.panel-collapse.collapse').css('height','auto');
+                    
+                    // Clean tab-navigation styles
+                    menu = jQuery(this).find('.vertab-menu .list-group a');
+                    menu.removeClass("active");
+
+                    // Clean tab-panels styles
+                    contents = jQuery(this).find(".vertab-accordion .vertab-content");
+                    contents.removeClass("active");
+                    
+                    // Update tab navigation and panels styles
+                    menu.eq(index).addClass('active');			
+                    contents.eq(index).addClass("active");
+                    
+                    // Update tab navigation's height to match current tab
+                    jQuery(this).children('.vertab-menu').css('min-height',jQuery(this).children('.vertab-accordion').height() + 20);			
+                }
+                else // If using a mobile device (phone + tablets), manage as accordion
+                {
+                    // Close all panels
+                    jQuery(this).find('.vertab-content .panel-collapse.collapse').collapse('hide');
+                    
+                    // Clean styles from headings
+                    jQuery(this).find('.vertab-content .panel-heading').removeClass('active');
+                    
+                    // Wait until all panels have collapsed and mark the one the user selected as active.
+                    setTimeout(function()
+                    {
+                        jQuery(container).find('.vertab-content .panel-heading').eq(index).addClass("active");
+                        jQuery(container).find('.vertab-content .panel-collapse.collapse').eq(index).collapse('show');				
+                    },1000);
+
+                }	
+            });	
+        }
+    </script>
+</body>
+</html>
