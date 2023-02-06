@@ -1,0 +1,48 @@
+{
+  "name": "clase_12",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "benchmark": "node benchmark.js",
+    "test": "mocha ./test/server.test.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js --ignore public/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "0x": "^5.4.1",
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "artillery": "2.0.0-27",
+    "autocannon": "^7.10.0",
+    "axios": "^1.2.5",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "connect-mongo": "^4.6.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "express-graphql": "^0.12.0",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "graphql": "^16.6.0",
+    "handlebars": "^4.7.7",
+    "mocha": "^10.2.0",
+    "mongodb": "4.1.0",
+    "mongoose": "^6.7.1",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "pino": "^8.7.0",
+    "pino-pretty": "^9.1.1",
+    "pm2": "^5.2.2",
+    "socket.io": "^4.5.2",
+    "yargs": "^17.6.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0"
+  },
+  "description": ""
+}

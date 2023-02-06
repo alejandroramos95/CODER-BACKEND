@@ -1,0 +1,10 @@
+class Producto {
+    constructor(_id, {title, price, thumbnail}) {
+        this._id = _id;
+        this.title = title;
+        this.price = price;
+        this.thumbnail = thumbnail;
+    }
+}
+
+module.exports = { Producto };
