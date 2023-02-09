@@ -10,7 +10,6 @@ const { Server: HttpServer } = require("http");
 const Handlebars = require("handlebars");
 const MongoStore = require('connect-mongo');
 const Passport = require('passport');
-
 const pino = require('pino');
 /* IMPORTACIONES LOCALES */
 const { Strategy } = require('./DB/Passport/Passport');
