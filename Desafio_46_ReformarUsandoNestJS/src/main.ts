@@ -40,9 +40,9 @@ async function bootstrap() {
     );
     app.use(passport.initialize());
     app.use(passport.session());
-    const PathView = join(__dirname, '..', 'views');
+    const PathView = join(__dirname, '..');
     app.useStaticAssets(join(PathView, 'public'));
-    app.setBaseViewsDir(PathView);
+    app.setBaseViewsDir(join(PathView, 'views'));
     app.engine(
         'hbs',
         engine({

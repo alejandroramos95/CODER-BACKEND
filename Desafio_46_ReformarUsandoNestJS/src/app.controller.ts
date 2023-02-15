@@ -24,7 +24,7 @@ export class AppController {
 
     @UseGuards(LocalAuthGuard)
     @Post('auth/login')
-    postLogin(@Request() req): any {
+    postLogin(): any {
         return { msg: 'login sucessfully' };
     }
 

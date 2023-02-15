@@ -12,7 +12,7 @@ html {
     margin-bottom: auto;
 }
 .card {
-    height: 500px;
+    height: 95%;
     border-radius: 15px !important;
     background-color: rgba(0, 0, 0, 0.4) !important;
 }
@@ -27,6 +27,7 @@ html {
 .card-header {
     border-radius: 15px 15px 0 0 !important;
     border-bottom: 0 !important;
+    background-color: hsl(0deg 0% 0% / 18%) !important;
 }
 .card-footer {
     border-radius: 0 0 15px 15px !important;
@@ -214,6 +215,12 @@ html {
 .action_menu ul li:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.2);
+}
+.justify-content-center {
+    justify-content: flex-start !important;
+}
+.input-group .input-group-text {
+    height: 100%;
 }
 @media (max-width: 576px) {
     .contacts_card {

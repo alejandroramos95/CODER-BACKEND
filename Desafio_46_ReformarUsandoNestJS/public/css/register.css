@@ -1,0 +1,16 @@
+body {
+    background: rgb(131,58,180);
+    background: linear-gradient(153deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 62%, rgba(252,176,69,1) 100%);
+}
+
+form {
+    margin-bottom: 0px !important;
+}
+
+.text-center.text-muted.mt-5.mb-0 {
+    margin-top: 1rem !important;
+}
+
+#div_button {
+    margin-top: 3rem !important;
+}

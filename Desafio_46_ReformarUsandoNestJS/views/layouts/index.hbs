@@ -24,22 +24,12 @@
     type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"
     ></script>
+    <link href="/css/index.css" rel="stylesheet">
     <title>Home</title>
 </head>
 <body>
-    <style>
-        html {
-            text-align: center;
-        }
-    </style>
     <div class="navbar_api"></div>
     <h1>Hello World!</h1>
-    <script>
-        window.onload = async() => {
-            const response = await fetch('/api/navbar');
-            const data = await response.text();
-            document.querySelector('.navbar_api').innerHTML = data;
-        }
-    </script>
+    <script src="/js/index.js"></script>
 </body>
 </html>
