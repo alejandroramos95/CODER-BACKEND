@@ -31,6 +31,10 @@ export class AppService {
         });
     }
 
+    postLogin(): any {
+        return { msg: 'login sucesslfully', status: 200 };
+    }
+
     getRegister(@Res() res: Response) {
         return res.render('main', { title: 'Register', layout: 'register' });
     }
@@ -62,6 +66,7 @@ export class AppService {
     }
 
     getLogout(@Res() res: Response, @Request() req) {
+        if (!req.user) return res.redirect('/');
         req.logout((err) => {
             if (err) {
                 console.log(err);

@@ -23,7 +23,7 @@
             type='text/javascript'
             src='https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js'
         ></script>
-        <link href="/css/login.css" rel="stylesheet">
+        <link href='/css/login.css' rel='stylesheet' />
         <title>Login</title>
     </head>
     <body>
@@ -44,15 +44,22 @@
                                     <h2
                                         class='fw-bold mb-2 text-uppercase'
                                     >Login</h2>
-                                    <p class='text-white-50 mb-5'>¡Por favor ingrese sus credenciales!</p>
-                                    
-                                    <form id="myForm" name="myForm" method="POST">
-                                        <div class='form-outline form-white mb-4'>
+                                    <p class='text-white-50 mb-5'>¡Por favor
+                                        ingrese sus credenciales!</p>
+
+                                    <form
+                                        id='myForm'
+                                        name='myForm'
+                                        method='POST'
+                                    >
+                                        <div
+                                            class='form-outline form-white mb-4'
+                                        >
                                             <input
                                                 type='email'
                                                 id='email'
                                                 class='form-control form-control-lg'
-                                                name="email"
+                                                name='email'
                                             />
                                             <label
                                                 class='form-label'
@@ -60,12 +67,14 @@
                                             >Email</label>
                                         </div>
 
-                                        <div class='form-outline form-white mb-4'>
+                                        <div
+                                            class='form-outline form-white mb-4'
+                                        >
                                             <input
                                                 type='password'
                                                 id='password'
                                                 class='form-control form-control-lg'
-                                                name="password"
+                                                name='password'
                                             />
                                             <label
                                                 class='form-label'
@@ -81,8 +90,17 @@
                                         <button
                                             class='btn btn-outline-light btn-lg px-5'
                                             type='button'
-                                            onclick="validateForm()"
-                                        >Login</button>
+                                            onclick='validateForm()'
+                                        >
+                                            <span
+                                                style='margin-right: 5px; display: none;'
+                                                id='spinner_btn'
+                                                class='spinner-border spinner-border-sm'
+                                                role='status'
+                                                aria-hidden='true'
+                                            ></span>
+                                            <span id='text_btn'>Iniciar Sesión</span>
+                                        </button>
 
                                         <div
                                             class='d-flex justify-content-center text-center mt-4 pt-1'
@@ -114,8 +132,7 @@
                 </div>
             </div>
         </section>
-        <script type="text/javascript" src="/js/mdb.min.js"></script>
-        <script type="text/javascript" src="/js/script.js"></script>
-        <script src="/js/login.js"></script>
+        <script type='text/javascript' src='/js/mdb.min.js'></script>
+        <script src='/js/login.js'></script>
     </body>
 </html>

@@ -24,11 +24,10 @@ export class AppController {
 
     @UseGuards(LocalAuthGuard)
     @Post('auth/login')
-    postLogin(): any {
-        return { msg: 'login sucessfully' };
+    postLogin(): object {
+        return this.appService.postLogin();
     }
 
-    @UseGuards(AuthenticateGuard)
     @Get('logout')
     gettLogout(@Request() req: Request, @Res() res): any {
         return this.appService.getLogout(res, req);

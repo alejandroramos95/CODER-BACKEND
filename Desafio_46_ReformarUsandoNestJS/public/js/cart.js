@@ -75,9 +75,10 @@ function renderSubTotal() {
     elms.forEach((elm) => {
         elm.innerHTML = subTotal.toFixed(2);
     });
-    const btn = document.querySelector('button[disabled]');
+    const btn = document.getElementById('btn_purchase');
     btn.removeAttribute('disabled');
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function purchase() {
     const response = await fetch('/api/cart/', {
         method: 'DELETE',
