@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import {
     IsEmail,
-    IsNumber,
+    IsNumberString,
     IsPositive,
     IsString,
     IsUrl,
@@ -17,8 +17,7 @@ export class UserDTO {
     @IsString()
     password: string;
 
-    @IsNumber()
-    @IsPositive()
+    @IsNumberString()
     age: number;
 
     @IsString()

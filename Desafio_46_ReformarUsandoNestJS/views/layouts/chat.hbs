@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat</title>
+		<!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"
+    ></script>
+	</head>
+	<!--Coded With Love By Mutiullah Samim-->
+	<body>
+        <style>
+            	body,html{
+			height: 100%;
+			margin: 0;
+			background: #7F7FD5;
+	       background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+	        background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+		}
+
+		.chat{
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+		.card{
+			height: 95%;
+			border-radius: 15px !important;
+			background-color: rgba(0,0,0,0.4) !important;
+		}
+		.contacts_body{
+			padding:  0.75rem 0 !important;
+			overflow-y: auto;
+			white-space: nowrap;
+		}
+		.msg_card_body{
+			overflow-y: auto;
+		}
+		.card-header{
+			border-radius: 15px 15px 0 0 !important;
+			border-bottom: 0 !important;
+			background-color: hsl(0deg 0% 0% / 18%) !important;
+		}
+	 .card-footer{
+		border-radius: 0 0 15px 15px !important;
+			border-top: 0 !important;
+	}
+		.container{
+			align-content: center;
+		}
+		.search{
+			border-radius: 15px 0 0 15px !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+		}
+		.search:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.type_msg{
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+			height: 60px !important;
+			overflow-y: auto;
+		}
+			.type_msg:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.attach_btn{
+	border-radius: 15px 0 0 15px !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.send_btn{
+	border-radius: 0 15px 15px 0 !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.search_btn{
+			border-radius: 0 15px 15px 0 !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.contacts{
+			list-style: none;
+			padding: 0;
+		}
+		.contacts li{
+			width: 100% !important;
+			padding: 5px 10px;
+			margin-bottom: 15px !important;
+		}
+	.active{
+			background-color: rgba(0,0,0,0.3);
+	}
+		.user_img{
+			height: 70px;
+			width: 70px;
+			border:1.5px solid #f5f6fa;
+		
+		}
+		.user_img_msg{
+			height: 40px;
+			width: 40px;
+			border:1.5px solid #f5f6fa;
+		
+		}
+	.img_cont{
+			position: relative;
+			height: 70px;
+			width: 70px;
+	}
+	.img_cont_msg{
+			height: 40px;
+			width: 40px;
+	}
+	.online_icon{
+		position: absolute;
+		height: 15px;
+		width:15px;
+		background-color: #4cd137;
+		border-radius: 50%;
+		bottom: 0.2em;
+		right: 0.4em;
+		border:1.5px solid white;
+	}
+	.offline{
+		background-color: #c23616 !important;
+	}
+	.user_info{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: 15px;
+	}
+	.user_info span{
+		font-size: 20px;
+		color: white;
+	}
+	.user_info p{
+	font-size: 10px;
+	color: rgba(255,255,255,0.6);
+	}
+	.video_cam{
+		margin-left: 50px;
+		margin-top: 5px;
+	}
+	.video_cam span{
+		color: white;
+		font-size: 20px;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+	.msg_cotainer{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: 10px;
+		border-radius: 25px;
+		background-color: #82ccdd;
+		padding: 10px;
+		position: relative;
+	}
+	.msg_cotainer_send{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-right: 10px;
+		border-radius: 25px;
+		background-color: #78e08f;
+		padding: 10px;
+		position: relative;
+	}
+	.msg_time{
+		position: absolute;
+		left: 0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_time_send{
+		position: absolute;
+		right:0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_head{
+		position: relative;
+	}
+	#action_menu_btn{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+	}
+	.action_menu{
+		z-index: 1;
+		position: absolute;
+		padding: 15px 0;
+		background-color: rgba(0,0,0,0.5);
+		color: white;
+		border-radius: 15px;
+		top: 30px;
+		right: 15px;
+		display: none;
+	}
+	.action_menu ul{
+		list-style: none;
+		padding: 0;
+	margin: 0;
+	}
+	.action_menu ul li{
+		width: 100%;
+		padding: 10px 15px;
+		margin-bottom: 5px;
+	}
+	.action_menu ul li i{
+		padding-right: 10px;
+	
+	}
+	.action_menu ul li:hover{
+		cursor: pointer;
+		background-color: rgba(0,0,0,0.2);
+	}
+    .justify-content-center {
+        justify-content: flex-start !important;
+    }
+	.input-group .input-group-text {
+		height: 100%;
+	}
+	@media(max-width: 576px){
+	.contacts_card{
+		margin-bottom: 15px !important;
+	}
+	}
+        </style>
+		<div class="navbar_api"></div>
+		<div class="container-fluid" style="margin-top: 2%; height: 22cm;">
+			<div class="card chat_opened">
+				<div class="card-header msg_head">
+					<div class="d-flex bd-highlight">
+						<div class="img_cont">
+							<img src="{{userImg}}" class="rounded-circle user_img">
+							<span class="online_icon"></span>
+						</div>
+						<div class="user_info">
+							<span>Chat Global</span>
+							<p>17 usuarios</p>
+						</div>
+					</div>
+				</div>
+				<div class="card-body msg_card_body" id="messages_container"></div>
+				<div class="card-footer">
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+						</div>
+						<input name="" class="form-control type_msg" placeholder="Type your message..." id="message_input" style="resize: none;"></input>
+						<div class="input-group-append" onclick="sendNewMessage()">
+							<span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/socket.io/socket.io.js"></script>
+        <script>
+			const socket = io.connect();
+			let userId;
+			socket.on('messages', async(data) => {
+				renderMessages(data);
+			});
+			socket.on('new-message', async(data) => {
+				renderMessages([data]);
+			});
+			async function loadNavbar(){
+				const response = await fetch('http://localhost:3000/api/navbar');
+				const data = await response.text();
+				document.querySelector('.navbar_api').innerHTML = data;
+			}
+			async function getInfoUser(id){
+				const response = await fetch(`/api/user/${id}`);
+				const data = await response.json();
+				return data;
+			}
+			async function getProtectedInfoUser(){
+				const response = await fetch(`/protected`);
+				const data = await response.json();
+				userId = data._id;
+				return data;
+			}
+			function renderMessages(messages){
+				const messagesContainer = document.getElementById('messages_container');
+				messages.forEach(async(message) => {
+					const div = document.createElement('div');
+					const userInfo = await getInfoUser(message.from);
+					const protectedInfoUser = await getProtectedInfoUser();
+					if(message.from == protectedInfoUser._id ){
+						div.classList.add('d-flex', 'justify-content-start', 'mb-4');
+						div.innerHTML = `
+							<div class="img_cont_msg">
+								<img src="${userInfo.avatar}" class="rounded-circle user_img_msg">
+							</div>
+							<div class="msg_cotainer">
+								${message.message}
+								<span class="msg_time">8:40 AM, Today</span>
+							</div>
+						`;
+					}else{
+						div.classList.add('d-flex', 'justify-content-end', 'mb-4');
+						div.innerHTML = `
+							<div class="msg_cotainer_send">
+								${message.message}
+								<span class="msg_time_send">8:55 AM, Today</span>
+							</div>
+							<div class="img_cont_msg">
+								<img src="${userInfo.avatar}" class="rounded-circle user_img_msg">
+							</div>
+						`;
+					}
+					messagesContainer.appendChild(div);
+				});
+			}
+			function sendNewMessage(){
+				const el = document.getElementById('message_input');
+				const messageObj = {
+					from: userId,
+					message: el.value,
+				}
+				socket.emit('new-message', messageObj);
+				el.value = '';
+			}
+			document.getElementById('message_input').addEventListener('keyup', (e) => {
+				if(e.keyCode == 13){
+					sendNewMessage();
+				}
+			});
+			loadNavbar();
+			
+        </script>
+	</body>
+</html>

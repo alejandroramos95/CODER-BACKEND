@@ -42,7 +42,7 @@ export class ProductMongo {
     // Obtener todos los productos
     async getAll() {
         try {
-            console.log('leyendo en mongo');
+            console.log('leyendo productos en mongo');
             await this.mongodb(this.url);
             return await ProductModel.find();
         } catch (err) {

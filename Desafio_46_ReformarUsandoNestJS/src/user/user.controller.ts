@@ -3,7 +3,7 @@ import { UserDTO } from './dto/user.dto';
 import { UserInterface } from './Interface/user.interface';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('api/user')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -17,7 +17,7 @@ export class UserController {
         return await this.userService.getById(userId);
     }
 
-    @Post()
+    @Post('register')
     async createUser(@Body() userData: UserDTO): Promise<UserInterface> {
         return await this.userService.createUser(userData);
     }

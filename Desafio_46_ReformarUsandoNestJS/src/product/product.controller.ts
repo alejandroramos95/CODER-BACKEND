@@ -3,7 +3,7 @@ import { ProductDTO } from './DTO/product.dto';
 import { ProductInterface } from './Interface/product.interface';
 import { ProductService } from './product.service';
 
-@Controller('product')
+@Controller('api/product')
 export class ProductController {
     constructor(private readonly productService: ProductService) {}
 

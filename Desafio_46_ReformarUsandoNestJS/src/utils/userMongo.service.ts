@@ -16,10 +16,14 @@ export class UserMongo {
     async createUser(user: UserDTO) {
         try {
             await this.mongodb(this.url);
-            const newProduct = new UserModel(user);
-            await newProduct.save();
-            console.log(`newUser ${newProduct}`);
-            return newProduct;
+            const doc = await UserModel.findOne({ email: user.email });
+            if (doc) {
+                throw { error: 'El usuario ya existe' };
+            }
+            const newUser = new UserModel(user);
+            await newUser.save();
+            console.log(`newUser ${newUser}`);
+            return newUser;
         } catch (err) {
             console.log(err);
         }
@@ -28,10 +32,19 @@ export class UserMongo {
     // Obtener producto por Id
     async getById(id: string) {
         try {
-            console.log(id);
             await this.mongodb(this.url);
             const UserId = new mongoose.Types.ObjectId(id);
             return await UserModel.findById(UserId);
+        } catch (error) {
+            console.log(error);
+            throw { error: 'Producto no existe' };
+        }
+    }
+
+    async findUser(email: string) {
+        try {
+            await this.mongodb(this.url);
+            return await UserModel.findOne({ email: email }).lean();
         } catch (error) {
             console.log(error);
             throw { error: 'Producto no existe' };

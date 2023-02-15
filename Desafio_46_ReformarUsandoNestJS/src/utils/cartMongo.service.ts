@@ -24,8 +24,14 @@ export class CartMongo {
     async getCartById(id: string) {
         try {
             await this.mongodb(this.url);
-            const cartId = new mongoose.Types.ObjectId(id);
-            return await CartModel.findById(cartId);
+            const userId = new mongoose.Types.ObjectId(id);
+            const user = await UserModel.findById(userId).lean();
+            if (!user) throw new Error('User not found');
+            const cart = await CartModel.findById(user.cartId);
+            if (!cart) {
+                throw new Error('Cart not found');
+            }
+            return cart;
         } catch (err) {
             console.log(err);
         }
@@ -41,10 +47,9 @@ export class CartMongo {
                 throw new Error('User not found');
             } else if (!user.cartId) {
                 const newCart = new CartModel();
-                await newCart.save();
                 user.cartId = newCart._id;
                 await user.save();
-                return newCart;
+                return await newCart.save();
             } else {
                 return await this.getCartById(user.cartId.toString());
             }
@@ -106,9 +111,12 @@ export class CartMongo {
 
     async deleteById(id: string) {
         try {
-            const cartId = new mongoose.Types.ObjectId(id);
-            const cart = await this.deleteCartById(cartId);
-            await this.deleteRelation(cartId);
+            const userId = new mongoose.Types.ObjectId(id);
+            const user = await UserModel.findById(userId).lean();
+            if (!user) throw new Error('User not found');
+            const cart = await this.deleteCartById(user.cartId);
+            if (!cart) throw new Error('Cart not found');
+            await this.deleteRelation(user.cartId);
             return cart;
         } catch (err) {
             console.log(err);

@@ -1,8 +1,17 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    UseGuards,
+    Request,
+} from '@nestjs/common';
+import { AuthenticateGuard } from 'src/auth/authenticated.guard';
 import { CartService } from './cart.service';
 import { CartInterface } from './Interface/cart.interface';
 
-@Controller('cart')
+@Controller('api/cart')
 export class CartController {
     constructor(private readonly cartService: CartService) {}
 
@@ -11,9 +20,10 @@ export class CartController {
         return await this.cartService.getCarts();
     }
 
-    @Get(':id')
-    async getById(@Param('id') cartId: string): Promise<CartInterface> {
-        return await this.cartService.getCartById(cartId);
+    @UseGuards(AuthenticateGuard)
+    @Get('user')
+    async getById(@Request() req): Promise<CartInterface> {
+        return await this.cartService.getCartById(req.user._id);
     }
 
     @Post('/user/:id')
@@ -21,16 +31,18 @@ export class CartController {
         return await this.cartService.createCart(userId);
     }
 
-    @Post('/user/:userId/product/:prodId')
+    @UseGuards(AuthenticateGuard)
+    @Post('/product/:prodId')
     async addProductToCart(
-        @Param('userId') userId: string,
+        @Request() req,
         @Param('prodId') productId: string,
     ): Promise<CartInterface> {
-        return await this.cartService.addProduct(userId, productId);
+        return await this.cartService.addProduct(req.user._id, productId);
     }
 
-    @Delete(':id')
-    async deleteById(@Param('id') cartId: string): Promise<CartInterface> {
-        return await this.cartService.deleteById(cartId);
+    @UseGuards(AuthenticateGuard)
+    @Delete('')
+    async deleteById(@Request() req): Promise<CartInterface> {
+        return await this.cartService.deleteById(req.user._id);
     }
 }
