@@ -50,6 +50,13 @@ export class AppService {
         return res.render('main', { title: 'Products', layout: 'products' });
     }
 
+    getAddProduct(@Res() res: Response) {
+        return res.render('main', {
+            title: 'Add Product',
+            layout: 'addProduct',
+        });
+    }
+
     getCart(@Res() res: Response) {
         return res.render('main', { title: 'Cart', layout: 'cart' });
     }

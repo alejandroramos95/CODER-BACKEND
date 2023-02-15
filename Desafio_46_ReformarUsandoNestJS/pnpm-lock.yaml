@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@nestjs/cli': ^9.0.0
-  '@nestjs/common': ^9.0.0
+  '@nestjs/common': ^9.3.8
   '@nestjs/config': ^2.3.1
   '@nestjs/core': ^9.3.8
   '@nestjs/passport': ^9.0.3

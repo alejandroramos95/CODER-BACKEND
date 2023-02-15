@@ -49,6 +49,11 @@ export class AppController {
         return this.appService.getProduct(res);
     }
 
+    @Get('products/new')
+    addProduct(@Res() res) {
+        return this.appService.getAddProduct(res);
+    }
+
     @Get('cart')
     cart(@Res() res) {
         return this.appService.getCart(res);

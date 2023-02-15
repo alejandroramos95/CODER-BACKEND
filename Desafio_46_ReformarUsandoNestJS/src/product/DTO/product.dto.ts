@@ -1,8 +1,9 @@
 import { Types } from 'mongoose';
 import {
+    IsDataURI,
+    IsDateString,
     IsNotEmpty,
-    IsNumber,
-    IsPositive,
+    IsNumberString,
     IsString,
     IsUrl,
 } from 'class-validator';
@@ -10,14 +11,20 @@ import {
 export class ProductDTO {
     @IsString()
     @IsNotEmpty()
+    full_title: string;
+
+    @IsString()
+    @IsNotEmpty()
     title: string;
 
-    @IsNumber()
-    @IsPositive()
+    @IsString()
+    @IsNotEmpty()
+    description: string;
+
+    @IsNumberString()
     price: number;
 
-    @IsNumber()
-    @IsPositive()
+    @IsNumberString()
     stock: number;
 
     @IsUrl()

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"
+    ></script>
+    <title>{{title}}</title>
+</head>
+<body style="text-align: center;">
+    <div class="navbar_api"></div>
+    <h1 style="margin-top: 40px;margin-bottom: 40px;">Añadir un nuevo producto</h1>
+    <div class="container">
+        <form id="myForm">
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+                <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="full_title_input" name="full_title" class="form-control" required />
+                    <label class="form-label" for="full_title_input">Nombre del producto</label>
+                </div>
+                </div>
+                <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="title_input" name="title" class="form-control" required />
+                    <label class="form-label" for="title_input">Marca del producto</label>
+                </div>
+                </div>
+            </div>
+
+            <!-- Number input -->
+            <div class="form-outline mb-4">
+                <input type="number" min="0.1" max="999.99" step="0.01" id="price_input" name="price" class="form-control" required />
+                <label class="form-label" for="price_input">Precio</label>
+            </div>
+
+            <!-- Number input -->
+            <div class="form-outline mb-4">
+                <input type="number" min="1" max="999" id="stock_input" name="stock" class="form-control" required />
+                <label class="form-label" for="stock_input">Stock</label>
+            </div>
+
+            <!-- Text input -->
+            <div class="form-outline mb-4">
+                <input type="url" id="thumbnail_input" name="thumbnail" class="form-control" required />
+                <label class="form-label" for="thumbnail_input">Imagen</label>
+            </div>
+
+            <!-- Description input -->
+            <div class="form-outline mb-4">
+                <textarea class="form-control" id="description_area" name="description" rows="4" style="max-height: 150px;" required></textarea>
+                <label class="form-label" for="description_area">Descripción</label>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Agregar producto al catálogo</button>
+        </form>
+    </div>
+    <script>
+        const loadNavbar = async() => {
+            const response = await fetch('/api/navbar');
+            const data = await response.text();
+            document.querySelector('.navbar_api').innerHTML = data;
+        }
+        loadNavbar();
+        document.getElementById('myForm').addEventListener('submit', async function(e){
+            e.preventDefault();
+            const full_title = document.querySelector('#full_title_input').value;
+            const title = document.querySelector('#title_input').value;
+            const price = document.querySelector('#price_input').value;
+            const stock = document.querySelector('#stock_input').value;
+            const thumbnail = document.querySelector('#thumbnail_input').value;
+            const description = document.querySelector('#description_area').value;
+            //trim para eliminar espacios en blanco
+            if(
+                full_title.trim() === '' || 
+                title.trim() === '' || 
+                price.trim() === '' || 
+                stock.trim() === '' || 
+                thumbnail.trim() === '' || 
+                description.trim() === ''
+            ){
+                alert('Todos los campos son obligatorios');
+                return;
+            }
+            const product = {
+                full_title,
+                title,
+                price,
+                stock,
+                thumbnail,
+                description
+            }
+            const response = await fetch('/api/product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(product)
+            });
+            const data = await response.json();
+            console.log(data);
+            if(data._id){
+                alert('Producto agregado con éxito');
+                window.location.href = '/products';
+            }else{
+                alert('Error al agregar el producto');
+                if(data.message){
+                    data.message.forEach(error => {
+                        alert(error);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
